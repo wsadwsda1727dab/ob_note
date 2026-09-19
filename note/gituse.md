@@ -170,4 +170,48 @@
 
 ---
 
-以上命令均出自实际对话中涉及或建议的内容。
+## 九、分支管理：将 `master` 改为 `main`
+
+### 1. 查看当前分支和远程信息
+
+```bash
+git branch -vv          # 查看本地分支及上游跟踪关系
+git remote show origin  # 查看远程仓库详细信息，包括默认分支
+```
+
+### 2. 本地重命名分支
+
+```bash
+git branch -m master main
+```
+
+### 3. 推送新分支并设置上游
+
+```bash
+git push -u origin main
+```
+
+### 4. 在 GitHub 上修改默认分支
+
+进入仓库 **Settings → Branches**，将 **Default branch** 从 `master` 改为 `main`。
+
+### 5. 删除远程旧的 `master` 分支
+
+```bash
+git push origin --delete master
+```
+
+### 6. 清理本地对远程已删除分支的引用
+
+```bash
+git fetch --prune
+```
+
+### 7. 以后新建仓库默认使用 `main`
+
+```bash
+git config --global init.defaultBranch main
+```
+
+---
+
