@@ -1,6 +1,6 @@
 # Git 与 GitHub 命令使用归纳
 
-> 本文整理自对话中涉及的所有 Git / GitHub 相关命令，按用途分类，方便查阅。
+[TOC]
 
 ---
 
@@ -354,4 +354,164 @@ main:    A --- B --- C --- D'
 
 ---
 
-以上命令均出自实际对话中涉及或建议的内容。
+## 十三、checkout 与 switch 使用的比较
+
+`git checkout` 是 Git 的“瑞士军刀”，一个命令能做很多事；`git switch` 是 Git 2.23 引入的专用命令，只负责切换分支。两者功能有重叠，但推荐分工使用。
+
+### 1. 功能对比
+
+| 操作                            | 旧命令（checkout）                | 新命令（switch / restore）              | 说明                   |
+| ------------------------------- | --------------------------------- | --------------------------------------- | ---------------------- |
+| 切换分支                        | `git checkout <分支>`             | `git switch <分支>`                     | 切换到已有分支         |
+| 创建并切换分支                  | `git checkout -b <新分支>`        | `git switch -c <新分支>`                | 基于当前提交创建新分支 |
+| 基于指定提交创建并切换          | `git checkout -b <新分支> <提交>` | `git switch -c <新分支> <提交>`         | 从旧提交拉出新分支     |
+| 切换到某个提交（detached HEAD） | `git checkout <提交>`             | `git switch --detach <提交>`            | 进入分离头指针状态     |
+| 恢复文件到某版本                | `git checkout <提交> -- <文件>`   | `git restore --source=<提交> -- <文件>` | 只改文件，不移动 HEAD  |
+| 恢复文件到最近提交              | `git checkout -- <文件>`          | `git restore -- <文件>`                 | 丢弃工作区修改         |
+| 取消暂存                        | `git reset HEAD <文件>`           | `git restore --staged <文件>`           | 从暂存区撤出           |
+
+### 2. 核心区别
+
+- **`git checkout`**：多功能，既能切分支，又能恢复文件，还能切提交。功能多但容易混淆，也容易误操作。
+- **`git switch`**：只用于切换分支（包括创建分支、切到指定提交）。语义清晰，减少误用。
+- **`git restore`**：专门用于恢复文件内容或取消暂存，替代 `checkout` 的文件恢复功能。
+
+### 3. 推荐用法
+
+- 切换分支：用 `git switch <分支>`。
+- 创建并切换分支：用 `git switch -c <新分支>`。
+- 基于旧提交创建分支：用 `git switch -c <新分支> <旧提交>`。
+- 恢复文件到旧版本：用 `git restore --source=<提交> -- <文件>` 或旧版 `git checkout <提交> -- <文件>`。
+- 丢弃工作区修改：用 `git restore <文件>` 或旧版 `git checkout -- <文件>`。
+- 取消暂存：用 `git restore --staged <文件>` 或旧版 `git reset HEAD <文件>`。
+
+### 4. 注意事项
+
+- `git switch` **不支持** `-- <文件>` 语法，不能用来恢复文件。
+- 如果你的 Git 版本低于 2.23，可能没有 `git switch` 和 `git restore`，只能用 `git checkout`。
+- 在脚本或旧教程中常见 `git checkout`，理解其多功能性即可，新项目建议用 `switch` + `restore`。
+
+### 5. 一句话总结
+
+**`checkout` 是全能旧命令，`switch` 是专用新命令。** 切换分支用 `switch`，恢复文件用 `restore`；旧环境继续用 `checkout` 也没问题，但要注意它可能同时改变 HEAD 和文件。
+
+------
+
+## 十四、回退到最近一次提交
+
+如果你修改了文件，发现改错了，想回到最近一次提交（HEAD）的状态，可以按下面情况处理。
+
+### 1. 修改了文件，但还没 `git add`
+
+恢复单个文件：
+
+```bash
+git restore 文件名
+```
+
+或旧版命令：
+
+```bash
+git checkout -- 文件名
+```
+
+恢复所有被修改的文件：
+
+```bash
+git restore .
+```
+
+或：
+
+```bash
+git checkout -- .
+```
+
+执行后，工作区文件会回到最近一次提交的样子，修改被丢弃。
+
+### 2. 已经 `git add`，但还没 `git commit`
+
+需要先取消暂存，再恢复文件：
+
+```bash
+git restore --staged 文件名
+git restore 文件名
+```
+
+或者一步到位，用 `HEAD` 覆盖暂存区和工作区：
+
+```bash
+git checkout HEAD -- 文件名
+```
+
+恢复所有文件：
+
+```bash
+git restore --staged .
+git restore .
+```
+
+### 3. 已经 `git commit`，但还没 `git push`
+
+如果想撤销最近一次提交，并丢弃这次提交的所有修改：
+
+```bash
+git reset --hard HEAD~1
+```
+
+- `HEAD~1` 表示回到上一次提交。
+- `--hard` 会丢弃工作区和暂存区的所有改动，**不可恢复**，确认后再用。
+
+如果只是想撤销提交，但保留修改内容在工作区：
+
+```bash
+git reset --soft HEAD~1
+```
+
+或保留在工作区但不暂存：
+
+```bash
+git reset HEAD~1
+```
+
+### 4. 已经 `git push` 到远程
+
+不要用 `git reset --hard` 后强推，除非你确定只有自己使用这个分支。  
+更安全的做法是用 `git revert` 生成一个反向提交：
+
+```bash
+git revert HEAD
+git push
+```
+
+这会抵消最近一次提交的改动，历史保留完整。
+
+### 5. 操作前建议
+
+先查看当前状态：
+
+```bash
+git status
+```
+
+再查看你改了什么：
+
+```bash
+git diff
+```
+
+确认确实要丢弃，再执行恢复命令。
+
+### 6. 总结
+
+| 状态                   | 命令                                             |
+| ---------------------- | ------------------------------------------------ |
+| 改了文件，没 `add`     | `git restore 文件` 或 `git checkout -- 文件`     |
+| 已 `add`，没 `commit`  | `git restore --staged 文件` + `git restore 文件` |
+| 已 `commit`，没 `push` | `git reset --hard HEAD~1`（丢弃提交和修改）      |
+| 已 `push`              | `git revert HEAD` + `git push`（安全）           |
+
+**最常用的是：`git restore 文件名`，直接回到最近一次提交的状态。**
+
+---
+
