@@ -2,17 +2,15 @@
 
 [TOC]
 
----
-
 ## 一、基础工作流
 
-| 命令                      | 用途                                           |
-| ------------------------- | ---------------------------------------------- |
-| `git add <文件>`          | 把工作区改动放入暂存区，准备提交               |
+| 命令                        | 用途                               |
+| ------------------------- | -------------------------------- |
+| `git add <文件>`            | 把工作区改动放入暂存区，准备提交                 |
 | `git add .`               | 把当前目录所有改动放入暂存区                   |
 | `git add --renormalize .` | 按 `.gitattributes` 重新规范化所有文件的行尾符 |
-| `git commit -m "说明"`    | 把暂存区内容提交到本地仓库，生成一个版本       |
-| `git status`              | 查看工作区、暂存区状态，哪些文件已暂存/未暂存  |
+| `git commit -m "说明"`      | 把暂存区内容提交到本地仓库，生成一个版本             |
+| `git status`              | 查看工作区、暂存区状态，哪些文件已暂存/未暂存          |
 
 ---
 
@@ -63,6 +61,7 @@
 | `git reset --hard <commit>`               | 回退到指定提交，丢弃之后所有改动                       |
 | `git reset HEAD <文件>`                   | 把文件从暂存区撤出，改动回到工作区                     |
 | `git revert <commit>`                     | 生成一个反向提交，抵消某次提交的改动（安全，不改历史） |
+| `git revert --no-edit HEAD`               | 撤销最近一次提交，并自动生成一个反向提交，不打开编辑器 |
 | `git checkout <commit> -- <文件>`         | 把某个文件回退到指定提交的版本                         |
 | `git restore --source=<commit> -- <文件>` | 同上，新版 Git 推荐                                    |
 | `git restore --source=HEAD -- <文件>`     | 把文件恢复到最近一次提交的版本                         |
@@ -71,6 +70,8 @@
 | `git reflog`                              | 查看 HEAD 移动记录，用于找回被 reset 掉的提交          |
 | `git rebase -i HEAD~n`                    | 交互式变基，可删除/合并/修改历史中的某次提交           |
 | `git cherry-pick <commit>`                | 把某次提交的改动应用到当前分支                         |
+
+
 
 ---
 
@@ -512,6 +513,173 @@ git diff
 | 已 `push`              | `git revert HEAD` + `git push`（安全）           |
 
 **最常用的是：`git restore 文件名`，直接回到最近一次提交的状态。**
+
+---
+
+## 十五：checkout、reset、restore、switch
+
+一、一句话分工
+
+- **`git switch`**：只管“切分支”。
+- **`git restore`**：只管“恢复文件 / 取消暂存”。
+- **`git checkout`**：旧版万能命令，既能切分支，也能恢复文件，容易混淆。
+- **`git reset`**：主要用来“移动分支指针 / 撤销提交”，也能取消暂存。
+
+Git 2.23 之后，官方把 `checkout` 的职责拆成了 `switch` 和 `restore`，新项目推荐用 `switch` + `restore`。
+
+---
+
+### 1、核心区别表
+
+| 命令           | 主要用途                         | 是否移动 HEAD/分支 | 是否影响暂存区       | 是否影响工作区   |
+| -------------- | -------------------------------- | ------------------ | -------------------- | ---------------- |
+| `git checkout` | 切分支、恢复文件、切提交         | 切分支/提交时移动  | 恢复文件时可能影响   | 是               |
+| `git switch`   | 切换/创建分支、分离 HEAD         | 是                 | 否                   | 切换分支时会更新 |
+| `git restore`  | 恢复文件、取消暂存               | 否                 | 用 `--staged` 时影响 | 默认影响         |
+| `git reset`    | 撤销提交、移动分支指针、取消暂存 | 撤销提交时移动     | 是                   | `--hard` 时影响  |
+
+---
+
+### 2、旧命令 vs 新命令对照
+
+| 操作                          | 旧命令（checkout / reset）          | 新命令（switch / restore）              |
+| ----------------------------- | ----------------------------------- | --------------------------------------- |
+| 切换分支                      | `git checkout <分支>`               | `git switch <分支>`                     |
+| 创建并切换分支                | `git checkout -b <新分支>`          | `git switch -c <新分支>`                |
+| 基于旧提交建分支              | `git checkout -b <新分支> <旧提交>` | `git switch -c <新分支> <旧提交>`       |
+| 切到某个提交（detached HEAD） | `git checkout <提交>`               | `git switch --detach <提交>`            |
+| 丢弃工作区修改                | `git checkout -- <文件>`            | `git restore <文件>`                    |
+| 恢复文件到旧提交              | `git checkout <提交> -- <文件>`     | `git restore --source=<提交> -- <文件>` |
+| 取消暂存                      | `git reset HEAD <文件>`             | `git restore --staged <文件>`           |
+
+---
+
+### 3、各命令详细用法
+
+#### 3.1 `git switch`
+
+只负责分支操作。
+
+```bash
+git switch main                 # 切换到 main 分支
+git switch -c new-feature       # 创建并切换到 new-feature
+git switch -c fix-old 6b30a27   # 基于旧提交创建并切换
+git switch --detach 6b30a27     # 进入 detached HEAD，只看不提交
+```
+
+特点：
+- 不会恢复文件。
+- 不支持 `-- <文件>`。
+- 语义清晰，推荐替代 `checkout` 的分支操作。
+
+---
+
+#### 3.2 `git restore`
+
+只负责文件恢复和取消暂存。
+
+```bash
+git restore 文件                # 丢弃工作区修改，回到暂存区状态
+git restore .                   # 丢弃所有工作区修改
+git restore --staged 文件       # 取消暂存，改动回到工作区
+git restore --source=HEAD~1 -- 文件   # 把文件恢复到上一次提交的版本
+git restore --source=HEAD --staged --worktree -- 文件  # 同时恢复暂存区和工作区
+```
+
+特点：
+- 不移动 HEAD，不切换分支。
+- 默认从暂存区恢复工作区。
+- 用 `--staged` 可以操作暂存区。
+
+---
+
+#### 3.3 `git checkout`
+
+旧版万能命令，现在仍可用，但容易混淆。
+
+```bash
+git checkout main               # 切换分支
+git checkout -b new-feature     # 创建并切换
+git checkout 6b30a27            # 切到旧提交，进入 detached HEAD
+git checkout -- 文件            # 丢弃工作区修改
+git checkout HEAD~1 -- 文件     # 把文件恢复到旧提交版本
+```
+
+特点：
+- 既能切分支，又能恢复文件。
+- `git checkout <提交>` 会进入 detached HEAD，修改后提交容易悬空。
+- 新项目建议用 `switch` + `restore` 替代。
+
+---
+
+#### 3.4 `git reset`
+
+主要用来移动分支指针、撤销提交，也能取消暂存。
+
+```bash
+git reset --soft HEAD~1     # 撤销最近提交，改动保留在暂存区
+git reset --mixed HEAD~1    # 撤销最近提交，改动保留在工作区（默认）
+git reset --hard HEAD~1     # 撤销最近提交，丢弃所有改动（危险）
+git reset HEAD 文件         # 取消暂存（旧用法）
+git reset <提交>            # 把当前分支回退到指定提交
+```
+
+特点：
+- `--soft`：只移动 HEAD，暂存区和工作区不动。
+- `--mixed`：移动 HEAD，重置暂存区，工作区不动。
+- `--hard`：移动 HEAD，重置暂存区和工作区，**丢弃修改**。
+- 已推送到远程的分支不要随便 `reset` + 强推，协作时用 `revert` 更安全。
+
+---
+
+### 4、`git restore` 的方向
+
+三个区域的关系：
+
+```text
+HEAD（最近提交）
+   │
+   │  git restore --staged
+   ▼
+暂存区（index）
+   │
+   │  git restore
+   ▼
+工作区
+```
+
+- **`git restore <文件>`**：从**暂存区**覆盖**工作区**。  
+  它不碰暂存区，也不直接从提交里拿内容。
+
+- **`git restore --staged <文件>`**：从**HEAD（最近提交）** 覆盖**暂存区**。  
+  它不碰工作区。
+
+- **`git restore --source=<提交> --staged --worktree <文件>`**：才从指定提交同时覆盖暂存区和工作区。
+
+##### 具体命令对比
+
+| 命令                                                    | 源       | 目标            | 效果                                  |
+| ------------------------------------------------------- | -------- | --------------- | ------------------------------------- |
+| `git restore 文件`                                      | 暂存区   | 工作区          | 丢弃工作区修改，回到暂存区状态        |
+| `git restore --staged 文件`                             | HEAD     | 暂存区          | 取消暂存，暂存区回到 HEAD，工作区不变 |
+| `git restore --source=HEAD~1 -- 文件`                   | 指定提交 | 工作区          | 工作区变成旧提交版本，暂存区不变      |
+| `git restore --source=HEAD --staged --worktree -- 文件` | HEAD     | 暂存区 + 工作区 | 彻底回到最近提交，两边都覆盖          |
+
+---
+
+### 5、常见场景该用哪个？
+
+| 场景                           | 推荐命令                                                  |
+| ------------------------------ | --------------------------------------------------------- |
+| 切换分支                       | `git switch <分支>`                                       |
+| 创建并切换分支                 | `git switch -c <新分支>`                                  |
+| 基于旧提交建分支               | `git switch -c <新分支> <旧提交>`                         |
+| 丢弃工作区修改                 | `git restore <文件>`                                      |
+| 取消暂存                       | `git restore --staged <文件>`                             |
+| 恢复文件到旧提交               | `git restore --source=<提交> -- <文件>`                   |
+| 撤销最近一次提交（本地未推送） | `git reset --soft/--mixed/--hard HEAD~1`                  |
+| 撤销已推送的提交               | `git revert HEAD` + `git push`                            |
+| 只想看看旧提交                 | `git switch --detach <提交>`，看完 `git switch main` 回来 |
 
 ---
 
