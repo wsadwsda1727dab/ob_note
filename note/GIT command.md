@@ -16,37 +16,37 @@
 
 ## 二、查看与比较
 
-| 命令                                     | 用途                                                |
-| ---------------------------------------- | --------------------------------------------------- |
-| `git diff`                               | 工作区 vs 暂存区：还没 `git add` 的改动             |
-| `git diff --cached`                      | 暂存区 vs 最近提交：已 `add` 但还没 `commit` 的改动 |
-| `git diff HEAD`                          | 工作区 vs 最近提交：从上次提交到现在所有改动        |
-| `git diff <commit> -- <文件>`            | 某次提交 vs 当前工作区                              |
+| 命令                                     | 用途                                   |
+| -------------------------------------- | ------------------------------------ |
+| `git diff`                             | 工作区 vs 暂存区：还没 `git add` 的改动          |
+| `git diff --cached`                    | 暂存区 vs 最近提交：已 `add` 但还没 `commit` 的改动 |
+| `git diff HEAD`                        | 工作区 vs 最近提交：从上次提交到现在所有改动             |
+| `git diff <commit> -- <文件>`            | 某次提交 vs 当前工作区                        |
 | `git diff <commit1> <commit2> -- <文件>` | 比较两次提交里同一个文件的差异                      |
-| `git diff HEAD^ -- <文件>`               | 上一次提交 vs 当前工作区                            |
-| `git diff HEAD^ HEAD -- <文件>`          | 上一次提交 vs 当前提交                              |
-| `git diff --stat`                        | 只看增删统计，不显示具体代码                        |
-| `git diff --name-status`                 | 只看文件名和状态（A/M/D）                           |
-| `git diff -w`                            | 忽略空白字符差异                                    |
-| `git diff --word-diff`                   | 按单词而不是按行显示差异                            |
-| `git show <commit>`                      | 查看某次提交的元数据 + 它引入的改动                 |
-| `git show HEAD`                          | 查看最近一次提交的详细信息                          |
-| `git show <commit> --stat`               | 只看某次提交改了哪些文件、增删行数                  |
-| `git show <commit> --name-only`          | 只看某次提交涉及的文件名                            |
-| `git show <commit> --name-status`        | 文件名 + 状态（新增/修改/删除）                     |
-| `git show <commit>:<文件>`               | 查看某次提交里某个文件的完整内容                    |
-| `git show HEAD^:doc/temp.js`             | 查看上一次提交里某个文件的内容                      |
-| `git show HEAD --name-only`              | 查看最近一次提交包含哪些文件                        |
-| `git log`                                | 查看提交历史（哈希、作者、日期、说明）              |
-| `git log --oneline`                      | 一行一个提交，最简略                                |
-| `git log --stat`                         | 提交历史 + 每次提交的文件统计                       |
-| `git log --name-only`                    | 提交历史 + 只列文件名                               |
-| `git log --name-status`                  | 提交历史 + 文件状态                                 |
-| `git log -p`                             | 提交历史 + 每次提交的具体 diff                      |
-| `git log --follow -- <文件>`             | 查看某个文件的完整历史（含改名）                    |
-| `git log -5 --stat`                      | 只看最近 5 次提交的统计                             |
-| `git --no-pager diff/show/log`           | 不分页显示，直接输出到终端                          |
-| `git check-attr -a -- <文件>`            | 查看某文件在 Git 中的属性（如是否被当作文本）       |
+| `git diff HEAD^ -- <文件>`               | 上一次提交 vs 当前工作区                       |
+| `git diff HEAD^ HEAD -- <文件>`          | 上一次提交 vs 当前提交                        |
+| `git diff --stat`                      | 只看增删统计，不显示具体代码                       |
+| `git diff --name-status`               | 只看文件名和状态（A/M/D）                      |
+| `git diff -w`                          | 忽略空白字符差异                             |
+| `git diff --word-diff`                 | 按单词而不是按行显示差异                         |
+| `git show <commit>`                    | 查看某次提交的元数据 + 它引入的改动                  |
+| `git show HEAD`                        | 查看最近一次提交的详细信息                        |
+| `git show <commit> --stat`             | 只看某次提交改了哪些文件、增删行数                    |
+| `git show <commit> --name-only`        | 只看某次提交涉及的文件名                         |
+| `git show <commit> --name-status`      | 文件名 + 状态（新增/修改/删除）                   |
+| `git show <commit>:<文件>`               | 查看某次提交里某个文件的完整内容                     |
+| `git show HEAD^:doc/temp.js`           | 查看上一次提交里某个文件的内容                      |
+| `git show HEAD --name-only`            | 查看最近一次提交包含哪些文件                       |
+| `git log`                              | 查看提交历史（哈希、作者、日期、说明）                  |
+| `git log --oneline`                    | 一行一个提交，最简略                           |
+| `git log --stat`                       | 提交历史 + 每次提交的文件统计                     |
+| `git log --name-only`                  | 提交历史 + 只列文件名                         |
+| `git log --name-status`                | 提交历史 + 文件状态                          |
+| `git log -p`                           | 提交历史 + 每次提交的具体 diff                  |
+| `git log --follow -- <文件>`             | 查看某个文件的完整历史（含改名）                     |
+| `git log -5 --stat`                    | 只看最近 5 次提交的统计                        |
+| `git --no-pager diff/show/log`         | 不分页显示，直接输出到终端                        |
+| `git check-attr -a -- <文件>`            | 查看某文件在 Git 中的属性（如是否被当作文本）            |
 
 ---
 
