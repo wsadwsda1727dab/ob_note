@@ -264,8 +264,10 @@ ls ~/.claude/skills/
 
 ### 1.9.1 更新
 
+`npx skills` 方式没有单独的更新命令：对同一个仓库再执行一次安装命令（写法见 1.3.2）即可覆盖为新版本。
+
 ```bash
-# npx skills 方式
+# 全局安装过的 Skill，用同样的全局参数重新执行
 npx skills add <owner/repo> -g
 
 # git clone 方式

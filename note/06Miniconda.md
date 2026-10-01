@@ -109,6 +109,8 @@ envs\gee_py
 
 这样可以让多个虚拟环境复用已经下载的软件包，从而减少重复下载。
 
+例如 `gee_py`、`ml_env`、`test_env` 三个环境都需要 `numpy` 时，Conda 会直接使用 `pkgs` 里已缓存的软件包，不需要每个环境各下载一次完整安装包。也就是说，`pkgs` 相当于 Conda 的本地软件包仓库，与"当前项目用哪个环境"无关。
+
 ## 2.2 将 Conda 包缓存设置到 D 盘
 
 执行：
@@ -330,106 +332,9 @@ conda search numpy
 
 ---
 
-# 四、Conda 的 C 盘与 D 盘关系
+# 四、测试 Conda 环境是否能够正确创建到 D 盘
 
-## 4.1 为什么已经有 D 盘 `pkgs`，还可能看到 C 盘 Conda 文件
-
-Windows 下 Conda 除了软件包和虚拟环境之外，还可能在用户目录保存一些：
-
-- 配置文件
-- ToS 接受记录
-- 环境注册信息
-- 登录认证信息
-- 通知缓存
-- 临时元数据
-
-例如：
-
-```text
-C:\Users\34936\.conda
-```
-
-以及：
-
-```text
-C:\Users\34936\AppData\Local\conda\conda
-```
-
-这些目录的存在，并不意味着 Conda 的完整软件包或虚拟环境被安装到了 C 盘。
-
-## 4.2 `pkgs` 与虚拟环境的关系
-
-例如创建：
-
-```text
-gee_py
-```
-
-时：
-
-```text
-D:\Software\sf1\miniconda\pkgs
-```
-
-负责保存下载的软件包缓存。
-
-而：
-
-```text
-D:\Software\sf1\miniconda\envs\gee_py
-```
-
-负责保存实际运行环境。
-
-因此：
-
-```text
-pkgs ≠ 虚拟环境
-```
-
-而是：
-
-```text
-下载缓存 → pkgs
-          ↓
-      安装到环境
-          ↓
-       envs\gee_py
-```
-
-## 4.3 为什么 Conda 不直接把下载包放进环境
-
-主要原因是**软件包复用**。
-
-例如：
-
-```text
-gee_py
-ml_env
-test_env
-```
-
-三个环境都需要：
-
-```text
-numpy
-```
-
-Conda 可以利用已经缓存的软件包，而不需要每次都重新下载完整安装包。
-
-因此：
-
-```text
-pkgs
-```
-
-相当于 Conda 的本地软件包仓库。
-
----
-
-# 五、测试 Conda 环境是否能够正确创建到 D 盘
-
-## 5.1 创建测试环境
+## 4.1 创建测试环境
 
 为了确认 `envs_dirs` 配置有效，可以创建一个临时环境：
 
@@ -445,7 +350,7 @@ a
 
 或根据当前提示选择接受。
 
-## 5.2 激活测试环境
+## 4.2 激活测试环境
 
 ```powershell
 conda activate test_conda
@@ -486,9 +391,9 @@ D:\Software\sf1\miniconda\envs\test_conda\python.exe
 
 位于第一位。
 
-这说明当前激活的 Conda 环境优先级正常。
+这说明当前激活的 Conda 环境优先级正常。对任何环境（包括后面的 `gee_py`）都用同样的三步核对：`python --version` 看版本、`where python` 看实际路径、`conda env list` 看环境位置。
 
-## 5.3 检查环境位置
+## 4.3 检查环境位置
 
 执行：
 
@@ -504,7 +409,7 @@ test_conda    D:\Software\sf1\miniconda\envs\test_conda
 
 这证明虚拟环境已经成功创建在 D 盘。
 
-## 5.4 删除测试环境
+## 4.4 删除测试环境
 
 测试完成后，不需要长期保留 `test_conda`。
 
@@ -528,9 +433,9 @@ y
 
 ---
 
-# 六、Conda 安装过程中的 `conda-pypi` WARNING
+# 五、Conda 安装过程中的 `conda-pypi` WARNING
 
-## 6.1 WARNING 的含义
+## 5.1 WARNING 的含义
 
 在使用 Conda 26.7.1 时，可能出现：
 
@@ -551,7 +456,7 @@ conda-pypi beta
 
 功能。
 
-## 6.2 是否需要处理
+## 5.2 是否需要处理
 
 目前不需要。
 
@@ -571,9 +476,9 @@ conda-pypi beta
 
 ---
 
-# 七、创建正式的 GEE Python 环境
+# 六、创建正式的 GEE Python 环境
 
-## 7.1 为什么使用 Python 3.9
+## 6.1 为什么使用 Python 3.9
 
 之前的 GEE 项目环境使用的是：
 
@@ -590,7 +495,7 @@ Python 3.9.23
 - GIS 库版本冲突
 - 机器学习库兼容问题
 
-## 7.2 创建 `gee_py`
+## 6.2 创建 `gee_py`
 
 首先确保不在测试环境中：
 
@@ -610,68 +515,24 @@ conda create -n gee_py python=3.9
 conda activate gee_py
 ```
 
-## 7.3 检查 Python 版本
+## 6.3 检查环境
 
-执行：
+检查方法与第四章相同，只是把对象换成 `gee_py`：
 
-```powershell
-python --version
-```
-
-应该得到：
-
-```text
-Python 3.9.x
-```
-
-## 7.4 检查 Python 实际路径
-
-执行：
-
-```powershell
-where python
-```
-
-第一个路径应该是：
-
-```text
-D:\Software\sf1\miniconda\envs\gee_py\python.exe
-```
-
-这说明当前使用的是 `gee_py` 环境中的 Python。
-
-## 7.5 检查环境位置
-
-执行：
-
-```powershell
-conda env list
-```
-
-应该看到类似：
+1. `python --version` 应显示 `Python 3.9.x`。
+2. `where python` 的第一个路径应该是 `D:\Software\sf1\miniconda\envs\gee_py\python.exe`，说明当前使用的是 `gee_py` 环境中的 Python。
+3. `conda env list` 应能看到：
 
 ```text
 base       D:\Software\sf1\miniconda
 gee_py     D:\Software\sf1\miniconda\envs\gee_py
 ```
 
-其中：
-
-```text
-gee_py
-```
-
-实际位于：
-
-```text
-D:\Software\sf1\miniconda\envs\gee_py
-```
-
 ---
 
-# 八、GEE 与机器学习环境的软件包规划
+# 七、GEE 与机器学习环境的软件包规划
 
-## 8.1 核心 GEE 软件包
+## 7.1 核心 GEE 软件包
 
 正式环境主要需要：
 
@@ -685,7 +546,7 @@ geemap
 - `earthengine-api`：Google Earth Engine Python API。
 - `geemap`：用于 GEE Python 环境中的交互式地图和遥感数据处理。
 
-## 8.2 机器学习软件包
+## 7.2 机器学习软件包
 
 洪涝检测和随机森林实验需要：
 
@@ -701,7 +562,7 @@ scikit-learn
 - `pandas`：表格数据处理。
 - `scikit-learn`：随机森林、分类评价等机器学习功能。
 
-## 8.3 常用遥感与 GIS 软件包
+## 7.3 常用遥感与 GIS 软件包
 
 根据后续项目需要，可以安装：
 
@@ -717,7 +578,7 @@ rasterio
 - `geopandas`：矢量数据处理。
 - `rasterio`：GeoTIFF 等栅格数据读写。
 
-## 8.4 不建议一次安装所有软件包
+## 7.4 不建议一次安装所有软件包
 
 建议按照：
 
@@ -743,9 +604,9 @@ rasterio
 
 ---
 
-# 九、PyPI 与 pip 镜像配置
+# 八、PyPI 与 pip 镜像配置
 
-## 9.1 Conda 镜像与 pip 镜像的区别
+## 8.1 Conda 镜像与 pip 镜像的区别
 
 Conda 和 pip 是两套不同的软件包管理方式。
 
@@ -770,7 +631,7 @@ PyPI
 
 因此，配置 Conda TUNA 镜像后，并不意味着 pip 自动使用 TUNA 镜像。
 
-## 9.2 配置清华 PyPI 镜像
+## 8.2 配置清华 PyPI 镜像
 
 如果需要提高 pip 安装速度，可以执行：
 
@@ -794,9 +655,9 @@ global.index-url='https://pypi.tuna.tsinghua.edu.cn/simple'
 
 ---
 
-# 十、最终目录结构
+# 九、最终目录结构
 
-## 10.1 Miniconda 主目录
+## 9.1 Miniconda 主目录
 
 最终整体结构可以是：
 
@@ -819,7 +680,7 @@ D:\Software\sf1\miniconda
 └── python.exe
 ```
 
-## 10.2 用户配置文件
+## 9.2 用户配置文件
 
 Conda 用户级配置：
 
@@ -836,7 +697,9 @@ Conda 虚拟环境目录
 channel 优先级
 ```
 
-## 10.3 项目环境
+除 `.condarc` 之外，Conda 还会在 `C:\Users\34936\.conda` 与 `C:\Users\34936\AppData\Local\conda\conda` 保留少量配置、认证、环境注册与通知文件。它们不代表软件包或虚拟环境被装到了 C 盘，通常不需要删除，具体判断见第二章第 4 节。
+
+## 9.3 项目环境
 
 最终 GEE 项目的 Python 环境：
 
@@ -844,13 +707,7 @@ channel 优先级
 D:\Software\sf1\miniconda\envs\gee_py
 ```
 
-PyCharm 后续应该将这个环境中的：
-
-```text
-python.exe
-```
-
-设置为项目解释器：
+PyCharm 后续应该将这个环境中的 `python.exe` 设置为项目解释器：
 
 ```text
 D:\Software\sf1\miniconda\envs\gee_py\python.exe
@@ -858,109 +715,27 @@ D:\Software\sf1\miniconda\envs\gee_py\python.exe
 
 ---
 
-# 十一、最终检查清单
+# 十、最终检查清单
 
-## 11.1 Miniconda 检查
+全部配置完成后，按顺序执行下面的命令核对结果。
 
-```powershell
-conda --version
-```
+| 检查项 | 命令 | 预期结果 |
+| --- | --- | --- |
+| Miniconda | `conda --version` | 正常显示版本号 |
+| Base 环境 | `conda info` | `base environment` 指向 `D:\Software\sf1\miniconda` |
+| 包缓存 | `conda config --show pkgs_dirs` | 主要使用 `D:\Software\sf1\miniconda\pkgs` |
+| 虚拟环境 | `conda config --show envs_dirs` | 主要使用 `D:\Software\sf1\miniconda\envs` |
+| 软件源 | `conda config --show channels`、`conda config --show default_channels` | 已配置清华 TUNA 镜像 |
+| GEE 环境 | `conda activate gee_py` 后执行 `python --version`、`where python` | Python 3.9，首个路径来自 `D:\Software\sf1\miniconda\envs\gee_py\` |
+| 环境列表 | `conda env list` | 能看到 `base` 与 `gee_py`，且路径都在 `D:\Software\sf1\miniconda` 下 |
 
-确认 Conda 可以正常运行。
-
-## 11.2 Base 环境检查
-
-```powershell
-conda info
-```
-
-确认：
-
-```text
-base environment:
-D:\Software\sf1\miniconda
-```
-
-## 11.3 包缓存检查
-
-```powershell
-conda config --show pkgs_dirs
-```
-
-确认：
-
-```text
-D:\Software\sf1\miniconda\pkgs
-```
-
-## 11.4 虚拟环境检查
-
-```powershell
-conda config --show envs_dirs
-```
-
-确认主要使用：
-
-```text
-D:\Software\sf1\miniconda\envs
-```
-
-## 11.5 软件源检查
-
-```powershell
-conda config --show channels
-```
-
-以及：
-
-```powershell
-conda config --show default_channels
-```
-
-确认已经配置 TUNA 镜像。
-
-## 11.6 GEE 环境检查
-
-```powershell
-conda activate gee_py
-```
-
-然后：
-
-```powershell
-python --version
-```
-
-以及：
-
-```powershell
-where python
-```
-
-第一个 Python 应该来自：
-
-```text
-D:\Software\sf1\miniconda\envs\gee_py\
-```
-
-## 11.7 环境列表检查
-
-```powershell
-conda env list
-```
-
-最终应该能够看到：
-
-```text
-base       D:\Software\sf1\miniconda
-gee_py     D:\Software\sf1\miniconda\envs\gee_py
-```
+各项的配置方法分别见第一、二、三、六章。
 
 ---
 
-# 十二、推荐的最终环境管理方式
+# 十一、推荐的最终环境管理方式
 
-## 12.1 Base 环境
+## 11.1 Base 环境
 
 `base` 环境主要用于：
 
@@ -970,27 +745,16 @@ gee_py     D:\Software\sf1\miniconda\envs\gee_py
 
 不建议把大量项目依赖全部安装到 `base`。
 
-## 12.2 `gee_py` 环境
+## 11.2 `gee_py` 环境
 
-你的 GEE、遥感和机器学习项目统一使用：
-
-```text
-gee_py
-```
-
-进入环境：
+你的 GEE、遥感和机器学习项目统一使用 `gee_py`：
 
 ```powershell
-conda activate gee_py
+conda activate gee_py    # 进入环境
+conda deactivate         # 退出环境
 ```
 
-退出环境：
-
-```powershell
-conda deactivate
-```
-
-## 12.3 PyCharm
+## 11.3 PyCharm
 
 PyCharm 项目解释器设置为：
 
@@ -998,7 +762,7 @@ PyCharm 项目解释器设置为：
 D:\Software\sf1\miniconda\envs\gee_py\python.exe
 ```
 
-这样：
+调用链如下：
 
 ```text
 PyCharm
@@ -1019,9 +783,9 @@ GIS / 遥感库
 
 ---
 
-# 十三、最终配置总结
+# 十二、最终配置总结
 
-## 13.1 核心路径
+## 12.1 核心路径
 
 | 项目 | 路径 |
 |---|---|
@@ -1031,18 +795,16 @@ GIS / 遥感库
 | GEE Python 环境 | `D:\Software\sf1\miniconda\envs\gee_py` |
 | Conda 用户配置 | `C:\Users\34936\.condarc` |
 
-## 13.2 核心原则
+## 12.2 核心原则
 
 - **Miniconda 安装到 D 盘。**
 - **Conda 包缓存放到 D 盘。**
 - **Conda 虚拟环境放到 D 盘。**
-- **C 盘保留少量 Conda 用户配置和系统级缓存即可。**
-- **不要为了彻底清空 C 盘而删除 Conda 配置文件。**
-- **GEE 项目使用独立的 `gee_py` 环境。**
-- **`base` 环境不作为主要项目开发环境。**
+- **C 盘保留少量 Conda 用户配置和系统级缓存即可，不要为了彻底清空 C 盘而删除 Conda 配置文件。**
+- **GEE 项目使用独立的 `gee_py` 环境，`base` 环境不作为主要项目开发环境。**
 - **Python 版本优先保持 Python 3.9，以兼容现有 GEE 项目。**
 - **Conda 与 pip 的软件源需要分别配置。**
 - **`conda-pypi` WARNING 不属于安装错误，可以正常忽略。**
-- **在正式安装大量依赖前，先确认 Conda、镜像、`pkgs` 和 `envs` 配置正确。**
+- **在正式安装大量依赖前，先按第十章清单确认 Conda、镜像、`pkgs` 和 `envs` 配置正确。**
 
 ---
