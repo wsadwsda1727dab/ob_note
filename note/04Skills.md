@@ -1,12 +1,25 @@
-# 一、Skills 安装方式
+# Skills 安装方式
 
-## 1.1 概述
+**目录**
 
-### 1.1.1 本文目的
+- [[#1. 概述]]
+- [[#2. 安装前准备]]
+- [[#3. 方式一：npx skills（推荐）]]
+- [[#4. 方式二：git clone]]
+- [[#5. 方式三：脚本一键安装]]
+- [[#6. 方式四：第三方 CLI 工具]]
+- [[#7. 方式五：手动复制]]
+- [[#8. 验证安装]]
+- [[#9. 更新与卸载]]
+- [[#10. 方式对比]]
+
+## 1. 概述
+
+### 1.1 本文目的
 
 本文总结目前主流的 Skills 安装方式，重点覆盖 **`npx skills`** 和 **`git clone`** 两种使用最广泛的方法，同时补充其他常见安装途径。
 
-### 1.1.2 适用范围
+### 1.2 适用范围
 
 - Claude Code
 - Cursor
@@ -14,9 +27,11 @@
 - OpenCode
 - 其他兼容 `SKILL.md` 标准的 Agent 工具
 
-## 1.2 安装前准备
+---
 
-### 1.2.1 环境要求
+## 2. 安装前准备
+
+### 2.1 环境要求
 
 | 依赖 | 说明 |
 |---|---|
@@ -25,20 +40,22 @@
 | Git | `git clone` 方式必需 |
 | 网络 | `npx skills` 从 GitHub 下载文件，需能访问 GitHub |
 
-### 1.2.2 两种作用范围
+### 2.2 两种作用范围
 
 | 范围 | 说明 | 典型路径 |
 |---|---|---|
 | 项目级 | 仅当前项目生效 | `<项目根>/.claude/skills/` |
 | 全局级 | 所有项目生效 | `~/.claude/skills/` |
 
-## 1.3 方式一：npx skills（推荐）
+---
 
-### 1.3.1 工具简介
+## 3. 方式一：npx skills（推荐）
+
+### 3.1 工具简介
 
 `npx skills` 是 Vercel Labs 开发的 Skill 管理工具，支持 50+ 种 AI 工具，在 Skill 领域使用最广泛。它本质上是从 GitHub 下载 Skill 文件，并自动放置到正确的 Agent 目录中。
 
-### 1.3.2 基本安装命令
+### 3.2 基本安装命令
 
 ```bash
 # 安装某个仓库的全部 Skill（项目级，默认）
@@ -57,7 +74,7 @@ npx skills add <owner/repo> --agent claude-code
 npx skills add <owner/repo> -y
 ```
 
-### 1.3.3 常用参数说明
+### 3.3 常用参数说明
 
 | 参数 | 简写 | 说明 |
 |---|---|---|
@@ -66,7 +83,7 @@ npx skills add <owner/repo> -y
 | `--skill` | `-s` | 只安装指定 Skill |
 | `--yes` | `-y` | 跳过确认提示，适合 CI/CD |
 
-### 1.3.4 实际示例
+### 3.4 实际示例
 
 ```bash
 # 安装 anthropics/skills 仓库的 commit 技能到 Claude Code
@@ -82,26 +99,28 @@ npx skills add anthropics/skills --skill commit -g -a claude-code -y
 npx skills add git@github.com:vercel-labs/agent-skills.git
 ```
 
-### 1.3.5 安装后的目录
+### 3.5 安装后的目录
 
 `npx skills` 会将 Skill 文件放到 `.agents/skills/`（项目级）或 `~/.agents/skills/`（全局级），同时为目标 Agent 创建符号链接，例如 `.claude/skills/`[reference:2]。
 
-### 1.3.6 查看已安装 Skill
+### 3.6 查看已安装 Skill
 
 ```bash
 npx skills list
 ```
 
-## 1.4 方式二：git clone
+---
 
-### 1.4.1 适用场景
+## 4. 方式二：git clone
+
+### 4.1 适用场景
 
 - 网络无法稳定访问 GitHub，需要从 Gitee 等镜像克隆
 - 需要固定到特定 commit 或 tag
 - 需要对 Skill 源码做本地修改
 - 不希望安装 Node.js
 
-### 1.4.2 项目级安装
+### 4.2 项目级安装
 
 ```bash
 # 克隆到项目的 .claude/skills/ 目录
@@ -115,7 +134,7 @@ git clone https://github.com/<owner>/<repo>.git .claude/skills/<skill-name>
 git clone https://github.com/SHYXIN/skills.git .claude/skills/shyxin-skills
 ```
 
-### 1.4.3 全局级安装
+### 4.3 全局级安装
 
 ```bash
 # 克隆到用户全局 Skills 目录
@@ -129,7 +148,7 @@ git clone https://github.com/<owner>/<repo>.git ~/.claude/skills/<skill-name>
 git clone https://github.com/AWENIAI/awen-store-visual-skill.git ~/.codex/skills/awen-store-visual-skill
 ```
 
-### 1.4.4 稀疏克隆（只下载 Skill 子目录）
+### 4.4 稀疏克隆（只下载 Skill 子目录）
 
 如果仓库很大，但只需要其中一个 Skill 文件夹，可以使用 Git 稀疏检出：
 
@@ -144,7 +163,7 @@ git checkout
 
 然后将检出后的 Skill 目录复制或符号链接到目标 Skills 目录[reference:3]。
 
-### 1.4.5 克隆后复制
+### 4.5 克隆后复制
 
 如果不需要保留 Git 历史，克隆后直接复制 Skill 文件夹到目标位置即可：
 
@@ -162,9 +181,11 @@ cp -r /tmp/skills-repo/skills/<skill-name> ~/.claude/skills/
 rm -rf /tmp/skills-repo
 ```
 
-## 1.5 方式三：脚本一键安装
+---
 
-### 1.5.1 curl 管道脚本
+## 5. 方式三：脚本一键安装
+
+### 5.1 curl 管道脚本
 
 部分仓库提供一键安装脚本，直接通过 `curl` 管道执行：
 
@@ -172,7 +193,7 @@ rm -rf /tmp/skills-repo
 curl -fsSL https://raw.githubusercontent.com/<owner>/<repo>/master/install.sh | bash
 ```
 
-### 1.5.2 克隆后运行本地脚本
+### 5.2 克隆后运行本地脚本
 
 ```bash
 git clone https://github.com/<owner>/<repo>.git
@@ -182,9 +203,11 @@ cd <repo>
 
 脚本通常会检测已安装的 Agent 工具，并自动将 Skill 放置到正确目录[reference:4]。
 
-## 1.6 方式四：第三方 CLI 工具
+---
 
-### 1.6.1 skillslm
+## 6. 方式四：第三方 CLI 工具
+
+### 6.1 skillslm
 
 `skillslm` 是另一个支持多 Agent 的 Skill 管理工具，支持 Claude Code、Cursor、Codex、OpenCode 等 9 个 Agent[reference:5]。
 
@@ -199,7 +222,7 @@ npx skillslm install mcp-builder --agent claude-code --global
 npx skillslm install anthropics/skills --skill mcp-builder --skill pdf --agent claude-code
 ```
 
-### 1.6.2 cn-skills-cli（国内加速）
+### 6.2 cn-skills-cli（国内加速）
 
 国内用户可使用 `cn-skills-cli` 从 Gitee 镜像拉取，免翻墙：
 
@@ -211,9 +234,9 @@ npm install -g cn-skills-cli --registry=https://registry.npmmirror.com
 cn-skills add <owner/repo> --yes --global --agent claude-code
 ```
 
+---
 
-
-## 1.7 方式五：手动复制
+## 7. 方式五：手动复制
 
 如果已有现成的 Skill 目录，直接复制到目标位置即可：
 
@@ -230,11 +253,11 @@ cp -r my-skill .claude/skills/
 Copy-Item -Recurse my-skill\* $env:USERPROFILE\.claude\skills\
 ```
 
+---
 
+## 8. 验证安装
 
-## 1.8 验证安装
-
-### 1.8.1 检查目录
+### 8.1 检查目录
 
 ```bash
 # 项目级
@@ -246,11 +269,11 @@ ls ~/.claude/skills/
 
 应能看到 `<skill-name>` 目录，且目录内有 `SKILL.md` 文件。
 
-### 1.8.2 重启 Agent
+### 8.2 重启 Agent
 
 安装后需要重启 Claude Code 或其他 Agent 会话，Skill 才会被加载[reference:8]。
 
-### 1.8.3 测试触发
+### 8.3 测试触发
 
 在 Agent 中调用该 Skill，例如：
 
@@ -260,9 +283,11 @@ ls ~/.claude/skills/
 
 如果 Skill 正确安装，Agent 应能识别并执行。
 
-## 1.9 更新与卸载
+---
 
-### 1.9.1 更新
+## 9. 更新与卸载
+
+### 9.1 更新
 
 `npx skills` 方式没有单独的更新命令：对同一个仓库再执行一次安装命令（写法见 1.3.2）即可覆盖为新版本。
 
@@ -277,7 +302,7 @@ git pull
 
 `npx skills` 也支持更新命令，具体以工具版本为准。
 
-### 1.9.2 卸载
+### 9.2 卸载
 
 ```bash
 # 直接删除目录
@@ -285,7 +310,9 @@ rm -rf ~/.claude/skills/<skill-name>
 rm -rf .claude/skills/<skill-name>
 ```
 
-## 1.10 方式对比
+---
+
+## 10. 方式对比
 
 | 方式 | 需要 Node.js | 需要 Git | 自动检测 Agent | 适合场景 |
 |---|---|---|---|---|
@@ -294,3 +321,5 @@ rm -rf .claude/skills/<skill-name>
 | 脚本安装 | 视脚本而定 | 是 | 是 | 仓库提供一键脚本 |
 | 第三方 CLI | 是 | 否 | 是 | 需要额外功能（国内加速等） |
 | 手动复制 | 否 | 否 | 否 | 离线环境、精细控制 |
+
+---

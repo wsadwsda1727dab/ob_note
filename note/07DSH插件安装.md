@@ -1,22 +1,29 @@
-# 一、DSH 插件安装方法与步骤
+# DSH 插件安装方法与步骤
 
-## 1.1 文档信息
+> 文档名称：DeepSeek Harness（DSH）插件安装方法与步骤
+> 操作系统：Windows
+> 适用范围：DSH Desktop 图形界面安装、DSH 命令行安装、插件兼容性排查与回滚
+> 实测宿主：DSH Desktop，内置运行时 `@deepseek-ai/dsh` = `0.2.0-rc.2`
+> DSH 安装目录：`D:\Software\sf1\DeepSeek Harness`
+> DSH_HOME：`%USERPROFILE%\.dsh`
+> 当前 profile：`desktop`
+> 内置 CLI：`D:\Software\sf1\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd`
+> 内置 pnpm：`D:\Software\sf1\DeepSeek Harness\resources\runtime\pnpm\bin\pnpm.cjs`
+> 环境提示：本机 `dsh` 与 `pnpm` 都不在系统 PATH 上，二者都由 DSH Desktop 自带，命令行安装必须用完整路径调用
+> 最近更新：2026-10-02
 
-- **文档名称**：DeepSeek Harness（DSH）插件安装方法与步骤
-- **操作系统**：Windows
-- **适用范围**：DSH Desktop 图形界面安装、DSH 命令行安装、插件兼容性排查与回滚
-- **实测宿主**：DSH Desktop，内置运行时 `@deepseek-ai/dsh` = `0.2.0-rc.2`
-- **DSH 安装目录**：`D:\Software\sf1\DeepSeek Harness`
-- **DSH_HOME**：`C:\Users\34936\.dsh`
-- **当前 profile**：`desktop`
-- **内置 CLI**：`D:\Software\sf1\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd`
-- **内置 pnpm**：`D:\Software\sf1\DeepSeek Harness\resources\runtime\pnpm\bin\pnpm.cjs`
+**目录**
 
-> 说明：本机 `dsh` 与 `pnpm` **都不在系统 PATH 上**，二者都由 DSH Desktop 自带（见上表）。命令行安装必须用完整路径调用。
+- [[#1. 先理解一个概念：profile]]
+- [[#2. 方法一：DSH Desktop 图形界面安装（桌面用户首选）]]
+- [[#3. 方法二：命令行安装]]
+- [[#4. 兼容性闸门：决定插件能不能被加载]]
+- [[#5. 常见错误速查]]
+- [[#6. 安装前后的安全操作]]
+- [[#7. 一次完整实测记录（可复现）]]
+- [[#8. 一页速查]]
 
----
-
-## 1.2 先理解一个概念：profile
+## 1. 先理解一个概念：profile
 
 DSH 用 **profile** 来组合一套运行界面。插件是装进某个 profile 里的，装错 profile 等于没装。
 
@@ -48,7 +55,7 @@ DSH 用 **profile** 来组合一套运行界面。插件是装进某个 profile 
 
 ---
 
-## 1.3 方法一：DSH Desktop 图形界面安装（桌面用户首选）
+## 2. 方法一：DSH Desktop 图形界面安装（桌面用户首选）
 
 这是最不容易出错的方式，也不用退出 Desktop。
 
@@ -62,7 +69,7 @@ dshmarket@1.66.6
 3. 按提示安装，必要时重启 DSH
 4. 回到界面确认：插件出现在已装列表，版本号与预期一致
 
-### 输入框到底接受什么
+### 2.1 输入框到底接受什么
 
 DSH 用同一个校验器判断这个输入，**只接受这几种形式**：
 
@@ -81,7 +88,7 @@ DSH 用同一个校验器判断这个输入，**只接受这几种形式**：
 /^(?:@[a-z0-9][a-z0-9._~-]*\/)?[a-z0-9][a-z0-9._~-]*$/
 ```
 
-### ⚠️ 最容易踩的坑：把整条命令行贴进输入框
+### 2.2 最容易踩的坑：把整条命令行贴进输入框
 
 如果在输入框里填成：
 
@@ -105,11 +112,11 @@ not a package name the registry accepts
 a version after @ must not be empty
 ```
 
-**结论：输入框要的是"包名"，不是"命令"。** 命令行语法属于 §1.4。
+**结论：输入框要的是“包名”，不是“命令”。** 命令行语法属于 §1.4。
 
 另外，界面里不需要（也不能）指定 `--profile`：它装的就是这个 App 正在使用的 profile（`desktop`）。
 
-### ⚠️ 第二个坑：裸名可能装到旧版本
+### 2.3 第二个坑：裸名可能装到旧版本
 
 pnpm 有**新版本冷冻期**（fresh-release hold）机制。实测现象：
 
@@ -124,9 +131,9 @@ pnpm 有**新版本冷冻期**（fresh-release hold）机制。实测现象：
 
 ---
 
-## 1.4 方法二：命令行安装
+## 3. 方法二：命令行安装
 
-### 基本语法
+### 3.1 基本语法
 
 ```powershell
 dsh plugin --profile <profile 名> add <包名或地址>
@@ -134,7 +141,7 @@ dsh plugin --profile <profile 名> add <包名或地址>
 
 `dsh plugin` 会把参数**原样转发给 profile 目录里的 pnpm**，所以 `add`、`remove`、`why` 等 pnpm 子命令都可用。
 
-### 完整路径调用（本机必须）
+### 3.2 完整路径调用（本机必须）
 
 ```powershell
 $dsh = 'D:\Software\sf1\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd'
@@ -146,7 +153,7 @@ $dsh = 'D:\Software\sf1\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd'
 & $dsh plugin --profile desktop add dshmarket@1.66.6
 ```
 
-### 装到独立 profile（不碰现有环境）
+### 3.3 装到独立 profile（不碰现有环境）
 
 ```powershell
 $dsh = 'D:\Software\sf1\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd'
@@ -170,7 +177,7 @@ $env:DSH_HOME = 'D:\User\Documents\deepseek-harness\default-workspace\dsh-sandbo
 > 注意：`$env:DSH_HOME` 只在该 PowerShell 进程内生效，不写入系统环境变量、不改 shell rc。
 > 另：`market-trial` 这类从 web 模板建的 profile **本身就是 web 应用**，启动时不要再传 `web`（会报 `too many arguments`）。
 
-### 其它有用的命令
+### 3.4 其它有用的命令
 
 ```powershell
 # 查看组合后的配置树（不启动）
@@ -185,7 +192,7 @@ $env:DSH_HOME = 'D:\User\Documents\deepseek-harness\default-workspace\dsh-sandbo
 
 ---
 
-## 1.5 兼容性闸门：决定插件能不能被加载
+## 4. 兼容性闸门：决定插件能不能被加载
 
 **这是安装 DSH 插件最关键的一环。** 装得上 ≠ 能加载。
 
@@ -204,7 +211,7 @@ with dsh 0.2.0-rc.2: peerDependencies {...}
 
 如果插件界面里没出现，先去看启动日志有没有这行。
 
-### 预发布版本的陷阱
+### 4.1 预发布版本的陷阱
 
 对带预发布号的 caret 范围，node-semver 的上界会补 `-0`：
 
@@ -212,9 +219,9 @@ with dsh 0.2.0-rc.2: peerDependencies {...}
 ^0.1.0-rc.7   ->   >=0.1.0-rc.7 <0.2.0-0
 ```
 
-`0.2.0-rc.1` 大于 `0.2.0-0`，所以**「只写 0.1.x」的插件在 0.2 宿主上一定不满足**，多加几段 OR 也救不回来。跨 minor 升级时这是最常见的"插件突然消失"原因。
+`0.2.0-rc.1` 大于 `0.2.0-0`，所以**「只写 0.1.x」的插件在 0.2 宿主上一定不满足**，多加几段 OR 也救不回来。跨 minor 升级时这是最常见的“插件突然消失”原因。
 
-### 确认宿主版本
+### 4.2 确认宿主版本
 
 ```powershell
 & $dsh -V
@@ -227,7 +234,7 @@ Select-String -Path 'D:\Software\sf1\DeepSeek Harness\resources\app.asar' `
   -Pattern '"@deepseek-ai/dsh": "[^"]+"'
 ```
 
-### 不满足时的处理（按优先级）
+### 4.3 不满足时的处理（按优先级）
 
 1. **升级插件到声明了新宿主线的版本**（首选）
 2. **装回与宿主匹配的旧版本**：`& $dsh plugin --profile <名字> add <包名>@<旧版本>`
@@ -251,7 +258,7 @@ Select-String -Path 'D:\Software\sf1\DeepSeek Harness\resources\app.asar' `
 
 ---
 
-## 1.6 常见错误速查
+## 5. 常见错误速查
 
 | 现象 | 原因 | 处理 |
 | --- | --- | --- |
@@ -265,12 +272,12 @@ Select-String -Path 'D:\Software\sf1\DeepSeek Harness\resources\app.asar' `
 
 ---
 
-## 1.7 安装前后的安全操作
+## 6. 安装前后的安全操作
 
-### 安装前：留快照
+### 6.1 安装前：留快照
 
 ```powershell
-$prof = 'C:\Users\34936\.dsh\profiles\desktop'
+$prof = '%USERPROFILE%\.dsh\profiles\desktop'
 $out  = 'D:\backup\before-desktop.sha256.txt'
 Get-ChildItem $prof -Recurse -File -Force |
   Where-Object { $_.FullName -notlike '*\node_modules\*' } |
@@ -281,7 +288,7 @@ Get-ChildItem $prof -Recurse -File -Force |
 
 装完再跑一次做对比，即可确认变更范围。
 
-### 安装后：建议关闭「一键重启宿主」
+### 6.2 安装后：建议关闭「一键重启宿主」
 
 在 profile 的 `cordis.patch.yml` 里追加（注意 `allowRestart` 必须在 `config:` 下，**不能与 `name:` 平级**）：
 
@@ -294,7 +301,7 @@ Get-ChildItem $prof -Recurse -File -Force |
 
 改完用 `--dump-config` 确认已生效（应出现 `# == dshmarket, patched by ...cordis.patch.yml`）。
 
-### 回滚
+### 6.3 回滚
 
 1. 删除 `profiles\<名字>\node_modules\<包名>`
 2. 从 `package.json` 的 `dependencies` 与 `dsh.profile.bundles` 中移除该包
@@ -303,7 +310,7 @@ Get-ChildItem $prof -Recurse -File -Force |
 
 若是整块独立 profile，直接删目录即可：`Remove-Item 'D:\...\profiles\<名字>' -Recurse -Force`
 
-### 安装前三问（来源可信度）
+### 6.4 安装前三问（来源可信度）
 
 - 仓库 owner 是组织还是个人？License 是什么？
 - npm 包是否有 **provenance 签名**？发布者是否为 CI？
@@ -313,7 +320,7 @@ Get-ChildItem $prof -Recurse -File -Force |
 
 ---
 
-## 1.8 一次完整实测记录（可复现）
+## 7. 一次完整实测记录（可复现）
 
 以在隔离环境中安装 `dshmarket` 为例：
 
@@ -345,7 +352,7 @@ $env:DSH_HOME = 'D:\User\Documents\deepseek-harness\default-workspace\dsh-sandbo
 
 ---
 
-## 1.9 一页速查
+## 8. 一页速查
 
 ```text
 图形界面安装：设置 → 插件 → 安装 → 输入「包名@版本」
@@ -362,3 +369,5 @@ $env:DSH_HOME = 'D:\User\Documents\deepseek-harness\default-workspace\dsh-sandbo
 1. 装到哪个 profile，就在哪个 profile 用；`web` 与 `desktop` 互不相通
 2. 命令行操作 `desktop` profile 前，必须先**完全退出 DSH Desktop**
 3. 安装前留 SHA256 快照，安装后核对；能 pin 版本就不要用裸名
+
+---
