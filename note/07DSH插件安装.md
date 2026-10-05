@@ -10,7 +10,7 @@
 > 内置 CLI：`D:\Software\sf1\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd`
 > 内置 pnpm：`D:\Software\sf1\DeepSeek Harness\resources\runtime\pnpm\bin\pnpm.cjs`
 > 环境提示：本机 `dsh` 与 `pnpm` 都不在系统 PATH 上，二者都由 DSH Desktop 自带，命令行安装必须用完整路径调用
-> 最近更新：2026-10-02
+> 最近更新：2026-10-03
 
 **目录**
 
@@ -22,6 +22,7 @@
 - [[#6. 安装前后的安全操作]]
 - [[#7. 一次完整实测记录（可复现）]]
 - [[#8. 一页速查]]
+- [[#9. 变更记录]]
 
 ## 1. 先理解一个概念：profile
 
@@ -369,5 +370,14 @@ $env:DSH_HOME = 'D:\User\Documents\deepseek-harness\default-workspace\dsh-sandbo
 1. 装到哪个 profile，就在哪个 profile 用；`web` 与 `desktop` 互不相通
 2. 命令行操作 `desktop` profile 前，必须先**完全退出 DSH Desktop**
 3. 安装前留 SHA256 快照，安装后核对；能 pin 版本就不要用裸名
+
+---
+
+## 9. 变更记录
+
+| 日期 | 版本 | 变更 |
+|---|---|---|
+| 2026-10-01 | 1.0.0 | 初版：DSH 插件的图形界面与命令行两种安装方式、profile 概念、兼容性闸门与安装前后的安全操作 |
+| 2026-10-03 | 1.0.1 | 补建变更记录章；本篇此前的内容改动未逐条回溯，版本号自本次起维护 |
 
 ---

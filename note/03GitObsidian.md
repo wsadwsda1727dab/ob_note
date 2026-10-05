@@ -1,6 +1,10 @@
 # Obsidian 与 GitHub 连接及排除文件指南
 
-> 本文档总结如何将 Obsidian 库连接到 GitHub，以及必须排除跟踪的文件，避免同步冲突。逐条命令的写法见 [[01Git_command]]，原理与回退流程见 [[02Gituse]]。
+> 文档名称：Obsidian 与 GitHub 连接及排除文件指南
+> 适用范围：把本库接入 GitHub 的两种做法，以及必须排除跟踪的文件与原因
+> 适用对象：本库作者，以及协助配置同步与忽略规则的 AI
+> 最近更新：2026-10-03
+> 关联文档：[[00总览]]（全库导航）、[[01GitCommand]]（逐条命令）、[[02GitUse]]（原理与回退流程）
 
 ## 1. 将 Obsidian 库连接到 GitHub
 
@@ -50,7 +54,7 @@
 > 注意：
 >
 > - `git remote add origin <url>` 只对当前文件夹有效，每个库需单独设置。
-> - 示例统一用 `main`；若远程默认分支仍是 `master`，把命令里的分支名换成 `master`，或按 [[02Gituse]] 第 1 章把分支改名为 `main`。
+> - 示例统一用 `main`；若远程默认分支仍是 `master`，把命令里的分支名换成 `master`，或按 [[02GitUse]] 第 1 章把分支改名为 `main`。
 
 ---
 
@@ -84,7 +88,7 @@ desktop.ini
 .trash/
 ```
 
-规则语法（`*.log`、`/dist/`、`!important.log`）与生效范围见 [[01Git_command]] 第 6 章。
+规则语法（`*.log`、`/dist/`、`!important.log`）与生效范围见 [[01GitCommand]] 第 6 章。
 
 ### 2.2 `.gitattributes`
 
@@ -99,7 +103,7 @@ desktop.ini
 *.jpg binary
 ```
 
-属性含义与 `git add --renormalize .` 的用法见 [[01Git_command]] 第 1 章与第 5 章；行尾符改动的原因见 [[02Gituse]]。
+属性含义与 `git add --renormalize .` 的用法见 [[01GitCommand]] 第 1 章与第 5 章；行尾符改动的原因见 [[02GitUse]]。
 
 ### 2.3 为什么要排除 `workspace.json` 和 `graph.json`
 
@@ -117,6 +121,6 @@ git commit -m "停止跟踪本地界面状态文件"
 git push
 ```
 
-本地文件会保留，只是不再被 Git 跟踪。取消跟踪的完整流程、`.gitignore` 配合方式和常见问题见 [[02Gituse]] 第 7 章。
+本地文件会保留，只是不再被 Git 跟踪。取消跟踪的完整流程、`.gitignore` 配合方式和常见问题见 [[02GitUse]] 第 7 章。
 
 ---
