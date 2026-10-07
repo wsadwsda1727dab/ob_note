@@ -6,6 +6,7 @@ desktop.ini
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/workspace*.json
+.obsidian/backlink.json
 # Obsidian 缓存与索引
 .obsidian/cache/
 .obsidian/graph.json

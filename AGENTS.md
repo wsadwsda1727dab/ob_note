@@ -17,19 +17,10 @@ ob_note/
 ├── AGENTS.md
 ├── README.md
 ├── note/
-│   ├── 00总览.md
-│   ├── 01GitCommand.md
-│   ├── 02GitUse.md
-│   ├── 03GitObsidian.md
-│   ├── 04Skills.md
-│   ├── 05Command.md
-│   ├── 06Miniconda.md
-│   ├── 07DSH插件安装.md
-│   ├── 08Codex断电故障恢复.md
-│   ├── 09DSH工作区写入权限.md
-│   └── 10提交与文档同步规则.md
+│   ├── [[00note总览]]
+│   └── NN主题.md
 └── handover/
-    ├── 00总览-YYYY-MM-DD.md
+    ├── [[00note总览]]
     └── NN主题-YYYY-MM-DD.md
 ```
 
@@ -86,9 +77,9 @@ AGENTS.md
     ↓
 README.md
     ↓
-note/00总览.md
+note/[[00note总览]]
     ↓
-handover/00总览-YYYY-MM-DD.md
+handover/[[00handover总览]]
     ↓
 根据任务读取具体文档
 ```
@@ -118,9 +109,9 @@ handover/00总览-YYYY-MM-DD.md
 
 `README.md` 是仓库级说明，不是所有具体规则的唯一来源。
 
-### 2.4 第三级：note/00总览.md
+### 2.4 第三级：note总览
 
-读取 `note/00总览.md`，确认：
+读取[[00note总览]]，确认：
 
 * 当前有哪些长期知识文档。
 * 各文档负责什么。
@@ -131,7 +122,7 @@ handover/00总览-YYYY-MM-DD.md
 
 ### 2.5 第四级：handover 总览
 
-读取当前有效的 `handover/00总览-YYYY-MM-DD.md`。
+读取当前有效的 [[00handover总览]]。
 
 确认：
 
@@ -154,7 +145,7 @@ handover/00总览-YYYY-MM-DD.md
 → 读取 note/05Command.md
 
 用户要求新增或修改 handover
-→ 读取 handover/01交接文档写作格式-2026-10-05.md
+→ [[01交接文档写作格式]]
 
 用户要求 Git 操作
 → 根据任务读取 note/01GitCommand.md、note/02GitUse.md、note/03GitObsidian.md
@@ -184,7 +175,7 @@ Obsidian 双链`[[文档名]]`默认视为导航和相关性提示，不视为�
 
 读取 A
     ↓
-发现 [[B]]
+发现 B
     ↓
 B 与当前任务直接相关？
     ├─ 是 → 按需读取 B
@@ -212,13 +203,13 @@ B 与当前任务直接相关？
 
 当前长期有效的规则主要位于：
 
-* `note/05Command.md`
-* `note/10提交与文档同步规则.md`
-* `note/00总览.md` 中明确指向的当前规则
+* [[05Command]]
+* [[10提交与文档同步规则]]
+* [[00note总览]] 中明确指向的当前规则
 
 其中：
 
-`note/05Command.md` 是全库 Markdown 写作与输出规范。
+[[05Command]] 是全库 Markdown 写作与输出规范。
 
 它规定：
 
@@ -236,27 +227,27 @@ B 与当前任务直接相关？
 * 已闭环事项标注。
 * 交付前自查。
 
-涉及这些内容时，应直接读取并遵守 `note/05Command.md`，不要自行重新定义一套格式。
+涉及这些内容时，应直接读取并遵守文档，不要自行重新定义一套格式。
 
 ### 3.2 handover 专用规则
 
-`handover/01交接文档写作格式-2026-10-05.md` 是 `handover/` 专用规范。
+[[01交接文档写作格式]] 是 `handover/` 专用规范。
 
 创建或修改 handover 文档时：
 
 ```text
 用户当前要求
     ↓
-handover/01交接文档写作格式-2026-10-05.md
+[[01交接文档写作格式]]
     ↓
 note/05Command.md
 ```
 
 其中：
 
-* `handover/01` 负责交接文档特有要求。
-* `note/05Command.md` 负责通用 Markdown 要求。
-* 两者发生冲突时，按 `handover/01` 的明确规定处理。
+* [[01交接文档写作格式]] 负责交接文档特有要求。
+* [[05Command]] 负责通用 Markdown 要求。
+* 两者发生冲突时，按 [[01交接文档写作格式]] 的明确规定处理。
 * 用户当次明确要求始终优先。
 
 ### 3.3 历史 handover 不等于当前规则
@@ -292,10 +283,10 @@ Agent 在本仓库中遇到规则冲突时，按以下顺序处理：
 
 ```text
 1. 用户当前明确要求
-2. handover/01交接文档写作格式-2026-10-05.md
+2. [[01交接文档写作格式]]
    （仅限 handover 文档）
-3. note/05Command.md
-4. note/00总览.md 与 README.md 中的结构、命名约定
+3. [[05Command]]
+4. [[00note总览]] 与 README.md 中的结构、命名约定
 5. 其他知识笔记
 6. 历史 handover 文档
 7. Agent 自身默认习惯
@@ -393,22 +384,22 @@ C 失败。
 
 ## 6. 总览文件的维护
 
-### 6.1 note/00总览.md
+### 6.1 note/00note总览.md
 
-`note/00总览.md` 是 `note/` 的导航入口。
+`[[00note总览]]` 是 `note/` 的导航入口。
 
 新增、删除、改名或明显改变职责的 `note/` 文档后：
 
-* 检查 `note/00总览.md` 是否需要同步。
+* 检查 `[[00note总览]]` 是否需要同步。
 * 更新对应索引。
 * 更新文档简介。
 * 保持目录分类准确。
 
 不要让 `00总览` 变成另一份重复的知识正文。
 
-### 6.2 handover/00总览
+### 6.2 handover/00handover总览.md
 
-当前 `handover/00总览-YYYY-MM-DD.md` 是 `handover/` 的导航入口。
+当前 `[[00handover总览]]` 是 `handover/` 的导航入口。
 
 新增、删除、改名或明显改变职责的 handover 文档后：
 
@@ -488,7 +479,7 @@ Git 新版使用方法
 
 ## 8. Markdown 与文件格式
 
-所有 `note/` Markdown 文档必须遵守 `note/05Command.md`。
+所有 `note/` Markdown 文档必须遵守 `[[05Command]]`。
 
 Agent 不需要在 `AGENTS.md` 中复制整套 Markdown 规则，只需要执行以下原则：
 
@@ -743,8 +734,8 @@ note/10提交与文档同步规则.md
 先读取：
 
 ```text
-handover/00总览-YYYY-MM-DD.md
-handover/01交接文档写作格式-2026-10-05.md
+[[00handover总览]]
+[[01交接文档写作格式]]
 ```
 
 必要时读取与任务相关的历史 handover。
@@ -792,12 +783,10 @@ handover/01交接文档写作格式-2026-10-05.md
 
 `handover/` 中的未决事项如果已经闭环：
 
-* 不删除原事项行。
-* 按当前规则使用删除线标记。
-* `handover/00总览` 中的汇总项与来源文档中的事项必须同步。
+* 来源文档第 7.1 节保留原事项行，用删除线标记。
+* `handover/00handover总览` 第 6 章的汇总表删除该行，不在表内保留划线行。
+* 两处必须同步，不得只修改其中一处。
 * 具体规则以 `note/05Command.md` 第 14 章为准。
-
-不要只修改其中一处。
 
 ---
 
@@ -821,7 +810,7 @@ handover/01交接文档写作格式-2026-10-05.md
 
 额外检查：
 
-* [ ] 是否读取了 `handover/01交接文档写作格式-2026-10-05.md`。
+* [ ] 是否读取了 `[[01交接文档写作格式]]`。
 * [ ] 是否包含规定的九个章节。
 * [ ] 状态摘要是否能够独立说明当前状态。
 * [ ] 决策是否记录备选项和被否决方案。
@@ -829,7 +818,7 @@ handover/01交接文档写作格式-2026-10-05.md
 * [ ] 推测是否明确标记。
 * [ ] 回滚命令是否标注执行环境。
 * [ ] 未决事项是否区分“等用户决定”和“可自行推进”。
-* [ ] 闭环事项是否与总览同步。
+* [ ] 来源文档第 7.1 节已给闭环项加删除线，且总览第 6 章已删除对应行。
 
 ### 14.3 Git 任务
 
@@ -865,11 +854,11 @@ handover/01交接文档写作格式-2026-10-05.md
 
 ```text
 README.md
-note/00总览.md
-note/05Command.md
-note/10提交与文档同步规则.md
-handover/00总览-YYYY-MM-DD.md
-handover/01交接文档写作格式-2026-10-05.md
+[[00note总览]]
+[[05Command]]
+[[10提交与文档同步规则]]
+[[00handover总览]]
+[[01交接文档写作格式]]
 ```
 
 确认新增规则没有与现有规则冲突。
@@ -889,7 +878,7 @@ handover/01交接文档写作格式-2026-10-05.md
 具体 Markdown 规范仍以：
 
 ```text
-note/05Command.md
+[[05Command]]
 ```
 
 为准。
@@ -897,7 +886,7 @@ note/05Command.md
 具体 handover 规范仍以：
 
 ```text
-handover/01交接文档写作格式-2026-10-05.md
+[[01交接文档写作格式]]
 ```
 
 为准。
@@ -943,19 +932,19 @@ AGENTS.md
 README.md
 = 这个仓库是什么
 
-note/00总览.md
+[[00note总览]]
 = 长期知识在哪里
 
-note/05Command.md
+[[05Command]]
 = Markdown 当前怎么写
 
-note/10提交与文档同步规则.md
+[[10提交与文档同步规则]]
 = 修改后如何保持文档一致
 
-handover/00总览-YYYY-MM-DD.md
+[[00handover总览]]
 = 历史交接记录在哪里
 
-handover/01交接文档写作格式-2026-10-05.md
+[[01交接文档写作格式]]
 = handover 应该怎么写
 
 其他 note/

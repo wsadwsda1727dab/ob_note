@@ -4,7 +4,7 @@
 > 适用范围：分支改名、基于旧提交修改、`merge` 与 `cherry-pick` 取舍、detached HEAD 的避免与恢复、`checkout`/`switch`/`restore`/`reset` 分工，以及取消本地与远程跟踪
 > 适用对象：本库作者，以及协助处理 Git 操作的 AI
 > 最近更新：2026-10-03
-> 关联文档：[[00总览]]（全库导航）、[[01GitCommand]]（命令速查）、[[03GitObsidian]]（本库的 GitHub 接入与排除规则）
+> 关联文档：[[00note总览]]（全库导航）、[[01GitCommand]]（命令速查）、[[03GitObsidian]]（本库的 GitHub 接入与排除规则）
 
 **目录**
 
@@ -370,11 +370,11 @@ git reset --hard HEAD~1
 
 如果只是想撤销提交，但保留修改内容：
 
-| 命令 | 提交 | 暂存区 | 工作区 |
-| --- | --- | --- | --- |
-| `git reset --soft HEAD~1` | 撤销 | 保留改动 | 不动 |
-| `git reset --mixed HEAD~1`（即 `git reset HEAD~1`） | 撤销 | 重置 | 保留改动 |
-| `git reset --hard HEAD~1` | 撤销 | 重置 | 丢弃改动 |
+| 命令                                               | 提交  | 暂存区  | 工作区  |
+| ------------------------------------------------ | --- | ---- | ---- |
+| `git reset --soft HEAD~1`                        | 撤销  | 保留改动 | 不动   |
+| `git reset --mixed HEAD~1`（即 `git reset HEAD~1`） | 撤销  | 重置   | 保留改动 |
+| `git reset --hard HEAD~1`                        | 撤销  | 重置   | 丢弃改动 |
 
 ### 6.4 已经 `git push` 到远程
 
