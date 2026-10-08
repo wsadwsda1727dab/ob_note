@@ -107,7 +107,7 @@ npx skills add git@github.com:vercel-labs/agent-skills.git
 
 ### 3.5 安装后的目录
 
-`npx skills` 会将 Skill 文件放到 `.agents/skills/`（项目级）或 `~/.agents/skills/`（全局级），同时为目标 Agent 创建符号链接，例如 `.claude/skills/`[reference:2]。
+`npx skills` 会将 Skill 文件放到 `.agents/skills/`（项目级）或 `~/.agents/skills/`（全局级），同时为目标 Agent 创建符号链接，例如 `.claude/skills/`。
 
 ### 3.6 查看已安装 Skill
 

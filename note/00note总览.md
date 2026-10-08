@@ -6,9 +6,10 @@
 
 - **库名称**：ob_c1
 - **用途**：记录 Git/GitHub、Obsidian 同步、Skills 与 DSH 插件安装、Python 环境等工具操作与规范
-- **笔记位置**：全部正文放在 `note/` 目录，根目录只保留 Obsidian 配置与 Git 配置文件
+- **目录分工**：长期知识正文放在 `note/`，由本页导航；阶段性交接放在 `handover/`，由 [[00handover总览]] 导航；生成文档用的模板与示例数据放在 `templates/`，由 [[00模板说明]] 说明
+- **库根内容**：只保留仓库配置与库级说明，即 `.obsidian/`、`.gitattributes`、`.gitignore`、`README.md`、`AGENTS.md`，以及项目级 Skills 目录 `.agents/` 与它的清单 `skills-lock.json`
 - **命名约定**：`NN名称.md`，`NN` 为两位序号；英文名称不用下划线，每个单词首字母大写（如 `01GitCommand.md`、`02GitUse.md`），中文名称直接连写；新增笔记顺延编号；总览文件命名为 `00note总览.md`，`note` 保持小写，属命名例外
-- **本页定位**：既是全库导航，也说明各篇范围与阅读顺序
+- **本页定位**：`note/` 目录的导航，说明各篇范围与阅读顺序；全库布局见库根 `README.md`
 
 ### 1.2 同步与排除说明
 

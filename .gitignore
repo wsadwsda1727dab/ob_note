@@ -13,3 +13,6 @@ desktop.ini
 .obsidian/copilot-index*.json
 # Obsidian 回收站
 .trash/
+# skills
+.agents/
+skills-lock.json

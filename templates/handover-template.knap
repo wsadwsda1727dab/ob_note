@@ -1,0 +1,108 @@
+# {{ title }}
+
+> 文档名称：{{ title }}
+> 交接范围：{{ scope }}
+> 交接状态：{{ status }}
+> 接手方需要先知道：{{ heads_up }}
+> 承接自：{{ prev }}
+> 最近更新：{{ updated }}
+{% set l = links | join:"]]、[[" %}> 关联文档：[[{{ l }}]]
+
+**目录**
+
+- [[#1. 状态摘要]]
+- [[#2. 当前工作状态]]
+- [[#3. 未决事项与下一步]]
+- [[#4. 交付物与指纹]]
+- [[#5. 决策与理由]]
+- [[#6. 已验证与未验证]]
+- [[#7. 回滚与恢复]]
+- [[#8. 复现方法]]
+- [[#9. 环境速查]]
+
+## 1. 状态摘要
+
+{% for line in summary %}- {{ line }}{% endfor %}
+
+---
+
+## 2. 当前工作状态
+
+- 交接状态：`{{ status }}`，取值见 [[01交接文档写作格式]] 第 4.2 节。
+{% for item in done %}- 已完成：{{ item }}{% endfor %}
+{% if todo %}{% for item in todo %}- 未完成：{{ item }}{% endfor %}{% else %}- 未完成：无。{% endif %}
+
+---
+
+## 3. 未决事项与下一步
+
+### 3.1 等用户决定
+
+| 事项 | 前置条件 | 优先级 | 决定方 |
+|---|---|---|---|
+{% for p in pending_user %}| {{ p.item }} | {{ p.precondition }} | {{ p.priority }} | {{ p.decider }} |{% endfor %}
+{% if not pending_user %}| 无 | — | — | — |{% endif %}
+
+### 3.2 可自行推进
+
+{{ pending_self | list ?? "- 无。" }}
+
+---
+
+## 4. 交付物与指纹
+
+{% if artifacts %}| 文件 | 字节数 | 行数 | SHA-256 | 编码与行尾 |
+|---|---|---|---|---|
+{% for a in artifacts %}| `{{ a.path }}` | {{ a.bytes }} | {{ a.lines }} | {{ a.sha }} | {{ a.encoding }} |
+{% endfor %}{% else %}- 无。
+{% endif %}
+
+---
+
+## 5. 决策与理由
+
+{% for d in decisions %}### 5.{{ loop.index }} 决策点：{{ d.point }}
+
+- 备选项：{{ d.options }}
+- 影响：{{ d.impact }}
+- 结论：{{ d.conclusion }}
+
+{% endfor %}
+---
+
+## 6. 已验证与未验证
+
+- 已验证：
+{{ verified | list | indent:2 ?? "  - 无。" }}
+- 未验证：
+{{ unverified | list | indent:2 ?? "  - 无。" }}
+- 推测：
+{{ guesses | list | indent:2 ?? "  - 无。" }}
+
+---
+
+## 7. 回滚与恢复
+
+- 备份路径：{{ rollback.backup }}
+- 何时应当回滚：{{ rollback.when }}
+- 恢复命令（{{ rollback.env }}）：
+
+```powershell
+{{ rollback.commands }}
+```
+
+- 回滚会丢失什么：{{ rollback.loss }}
+
+---
+
+## 8. 复现方法
+
+{{ reproduce | join:"\n\n" }}
+
+---
+
+## 9. 环境速查
+
+{% for e in env %}- {{ e.fact }}：{{ e.value }}。{{ e.level }}{% endfor %}
+
+---

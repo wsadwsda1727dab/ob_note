@@ -1,0 +1,122 @@
+{
+  "title": "技能接入与工具链",
+  "scope": "`ob_c1/.agents/skills/` 下 6 个技能的接入与依赖安装；`defuddle`、`knap` 的全局安装；Obsidian CLI 的启用与调用链路验证",
+  "status": "已完成",
+  "heads_up": "6 个技能中 5 个已实测可用，`defuddle` 只验证了版本号；Obsidian CLI 能用，但受沙箱限制，每次调用都需要提权",
+  "prev": "[[12交接规则改版与索引同步-2026-10-08]]",
+  "updated": "2026-10-08",
+  "links": ["04Skills", "01交接文档写作格式", "00handover总览"],
+  "summary": [
+    "现在是什么状态：6 个项目级技能已装入 `.agents/skills/`，`defuddle` 与 `knap` 已全局安装并可用，Obsidian CLI 已在应用内启用并实测连通。",
+    "是否需要立刻行动：不需要。库内文档未改动，技能处于可用但尚未投入使用状态。",
+    "最重要的一条：`obsidian` 命令通过命名管道与运行中的 Obsidian 通信，沙箱内必然失败，调用时必须申请提权。"
+  ],
+  "done": [
+    "`.agents/skills/` 下 6 个技能目录就位，来源 `kepano/obsidian-skills` 已记录在 `skills-lock.json`",
+    "`defuddle` 0.19.4 与 `knap` 0.6.0 全局安装到 `%APPDATA%\\npm`，`knap` 已做渲染实测",
+    "Obsidian CLI 在应用内启用，用户 PATH 增加 `D:\\Program Files\\Obsidian`，命名管道 `obsidian-cli-<用户名>` 已建立",
+    "`knap` 交接文档模板原型完成，进入预览评审"
+  ],
+  "todo": [],
+  "pending_user": [
+    {
+      "item": "是否引入 `.base` 视图承接 `00handover总览` 的索引与未决汇总",
+      "precondition": "需接受新增文件类型，并同步 `00handover总览` 与 `README.md` 的结构说明",
+      "priority": "中",
+      "decider": "用户"
+    },
+    {
+      "item": "交接文档模板是否正式入库，以及存放位置",
+      "precondition": "需确认模板属 `handover/` 的可复跑资产还是另设目录",
+      "priority": "中",
+      "decider": "用户"
+    }
+  ],
+  "pending_self": [
+    "用真实案例跑一次 `knap render`，核对输出是否符合 [[05Command]] 的空行与分隔线要求。"
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/knap/SKILL.md",
+      "bytes": 4044,
+      "lines": 102,
+      "sha": "5F024939512B995A5D88EE096A4A379B3B02F0C447386486B5799129F49A7886",
+      "encoding": "UTF-8 无 BOM、LF"
+    },
+    {
+      "path": "skills-lock.json",
+      "bytes": 1471,
+      "lines": 41,
+      "sha": "9801BBE636904E3502CDCDDB45D06080B741CED794707802D5C24A7A900FDA84",
+      "encoding": "UTF-8 无 BOM、LF"
+    }
+  ],
+  "decisions": [
+    {
+      "point": "`defuddle` 与 `knap` 的安装方式",
+      "options": "甲，全局安装（`npm install -g`）；乙，改用 `npx` 每次临时调用。",
+      "impact": "甲在 PATH 上加两个命令，批量渲染时无额外下载开销；乙不污染全局环境，但每次调用都要联网取包，`knap batch` 场景明显变慢。",
+      "conclusion": "用户选甲，已装并实测版本与渲染。反悔需执行 `npm uninstall -g defuddle knap`。"
+    },
+    {
+      "point": "6 个技能的落地层级",
+      "options": "甲，项目级 `.agents/skills/`；乙，全局 `~/.codex/skills/`。",
+      "impact": "甲只对本库生效，随库分发，且该目录已在 `.gitignore` 内不进版本库；乙对所有项目生效，但与 Obsidian 无关的项目也会加载。",
+      "conclusion": "选甲，与这些技能只服务 Obsidian 库的定位一致。"
+    },
+    {
+      "point": "Obsidian CLI 的调用方式",
+      "options": "甲，每次调用申请提权；乙，申请一条长期授权规则。",
+      "impact": "甲每轮都有一次授权提示；乙减少打扰，但授权范围覆盖全部 `obsidian` 命令，包含写操作。",
+      "conclusion": "尚未决定，列入第 3.1 节。"
+    }
+  ],
+  "verified": [
+    "`obsidian vault` 在沙箱外返回 `ob_c1` 的名称、路径、28 个文件、2 个文件夹，退出码 0。",
+    "同一命令在沙箱内返回「无法找到 Obsidian」并退出码 1，两次对比确认差异来自沙箱对命名管道的拦截。",
+    "`%APPDATA%\\obsidian\\obsidian.json` 含 `\"cli\":true`，用户 PATH 含 `D:\\Program Files\\Obsidian`。",
+    "`knap render -t '# {{ title | trim }}' --data-json '{\"title\":\"  Smoke test  \"}'` 输出 `# Smoke test`，退出码 0。",
+    "`.obsidian/core-plugins.json` 中 `canvas` 与 `bases` 均为 `true`，两个技能的前置插件已就绪。"
+  ],
+  "unverified": [
+    "`defuddle` 未做真实抓取测试，只确认版本号为 0.19.4；未验证其对中文页面的正文抽取质量。",
+    "`knap` 模板尚未用真实交接文档跑完整渲染，输出的空行与分隔线是否符合 [[05Command]] 待逐项比对。",
+    "`.base` 与 `.canvas` 方案只有可行性判断，未做原型。"
+  ],
+  "guesses": [
+    "模板降低的是骨架抄写错误，不替代第 4 章的指纹取值与自查清单，两者仍需生成后逐项核对。"
+  ],
+  "rollback": {
+    "backup": "本次改动未单独备份，技能目录与依赖不在 Git 跟踪范围内；`npm` 全局包以 `npm list -g --depth=0` 为准。",
+    "when": "技能触发行为异常，或全局命令影响其他项目时。",
+    "env": "Windows PowerShell，在库根执行",
+    "commands": "npm uninstall -g defuddle knap\nRemove-Item -LiteralPath 'D:\\User\\Documents\\Obsidian\\ob_c1\\.agents\\skills\\<category>' -Recurse",
+    "loss": "卸载全局命令后 `defuddle` 与 `knap` 技能只剩说明文件，无法执行；删除技能目录后需按 `note/04Skills.md` 的方式重装。Obsidian CLI 的启用状态在应用设置内，不受上述命令影响。"
+  },
+  "reproduce": [
+    "- 指纹复核，在库根执行：\n\n```powershell\n$root = 'D:\\User\\Documents\\Obsidian\\ob_c1'\n$files = @('.agents\\skills\\knap\\SKILL.md','skills-lock.json')\nforeach ($f in $files) {\n  $p = Join-Path $root $f\n  $b = [IO.File]::ReadAllBytes($p)\n  '{0}|{1}|{2}|{3}' -f ($f -replace '\\\\','/'), $b.Length, (Get-Content -LiteralPath $p -Encoding UTF8).Count, (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash\n}\n```\n\n- 预期：两行输出与第 4 章逐项一致；不符说明文件已被再次改动。",
+    "- CLI 连通性检查，需在沙箱外执行：\n\n```powershell\nobsidian vault\n```\n\n- 预期：输出包含 `name ob_c1` 与 `path D:\\User\\Documents\\Obsidian\\ob_c1`。"
+  ],
+  "env": [
+    {
+      "fact": "沙箱策略",
+      "value": "workspace-write，工作区可直接写",
+      "level": "已验证"
+    },
+    {
+      "fact": "Node 与 npm",
+      "value": "Node v24.21.0、npm 11.19.0，满足 `knap` 的 Node 20+ 要求",
+      "level": "已验证"
+    },
+    {
+      "fact": "Obsidian",
+      "value": "1.13.7，CLI 随应用提供，路径 `D:\\Program Files\\Obsidian\\Obsidian.com`",
+      "level": "已验证"
+    },
+    {
+      "fact": "obsidian 命令的可用条件",
+      "value": "应用需处于打开状态，且命令必须在沙箱外执行",
+      "level": "已验证"
+    }
+  ]
+}
