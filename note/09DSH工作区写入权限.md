@@ -135,7 +135,7 @@ DSH 内置了一个用于排查 Windows 沙箱访问被拒的技能 `diagnose-wi
 Windows PowerShell，以管理员身份运行，执行目录任意：
 
 ```powershell
-icacls 'D:\User\Documents\Obsidian\ob_c1' /setintegritylevel (OI)(CI)low /T
+icacls 'D:\User\Documents\Obsidian\ob_c1' /setintegritylevel '(OI)(CI)low' /T
 ```
 
 - 作用：给根目录及全部既有子项补上低完整性标签，此后新建的对象自动继承。
@@ -144,7 +144,7 @@ icacls 'D:\User\Documents\Obsidian\ob_c1' /setintegritylevel (OI)(CI)low /T
 - 回滚：把需要恢复的子目录改回 medium，等价于原来的无标签状态。
 
 ```powershell
-icacls 'D:\User\Documents\Obsidian\ob_c1\note' /setintegritylevel (OI)(CI)medium
+icacls 'D:\User\Documents\Obsidian\ob_c1\note' /setintegritylevel '(OI)(CI)medium'
 ```
 
 回滚时不要把工作区根目录改成 medium，否则沙箱连根目录也写不进去。
