@@ -155,7 +155,10 @@ handover/[[00handover总览]]
 → [[01交接文档写作格式]]
 
 用户要求 Git 操作
-→ 根据任务读取 note/01GitCommand.md、note/02GitUse.md、note/03GitObsidian.md
+→ 根据任务读取 note/01GitCommand.md、note/02GitUse.md、note/03Obsidian实操约定.md
+
+用户要求 Obsidian 相关操作（改名、双链、排除文件、命令行核验）
+→ 读取 note/03Obsidian实操约定.md
 
 用户要求提交
 → 读取 note/10提交与文档同步规则.md
@@ -647,7 +650,7 @@ Git 相关操作优先读取：
 ```text
 note/01GitCommand.md
 note/02GitUse.md
-note/03GitObsidian.md
+note/03Obsidian实操约定.md
 note/10提交与文档同步规则.md
 handover/03ob_c1提交流程-2026-10-05.md
 ```
@@ -656,7 +659,7 @@ handover/03ob_c1提交流程-2026-10-05.md
 
 * `01GitCommand`：命令速查。
 * `02GitUse`：原理、场景和完整流程。
-* `03GitObsidian`：本知识库专属 Git 配置。
+* `03Obsidian实操约定`：本知识库专属 Git 配置与 Obsidian 相关约定（改名与双链、排除文件、命令行限制）。
 * `10提交与文档同步规则`：规则一「提交前先同步」的正本，含提交流程、命令骨架与敏感值扫描规则。
 * `handover/03...`：提交流程的历史交接记录与具体验证依据；其第 8 章正文已迁入 `10提交与文档同步规则` 第 4 章，不再维护。
 

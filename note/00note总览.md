@@ -14,12 +14,12 @@
 ### 1.2 同步与排除说明
 
 - `.obsidian` 目录整体跟踪，便于多设备保持一致配置
-- `.obsidian/workspace.json` 与 `.obsidian/graph.json` 只记录本地界面状态，已排除跟踪
-- 排除原因与操作细节见 [[03GitObsidian]]
+- `.obsidian/workspace.json`、`.obsidian/graph.json` 等只记录本地界面状态的文件已排除跟踪
+- 排除判据与操作细节见 [[03Obsidian实操约定]]
 
 ### 1.3 阅读提示
 
-Git 主线由三篇组成：[[01GitCommand]] 是速查表，[[02GitUse]] 是原理与场景详解，[[03GitObsidian]] 是落到本库的实际做法。
+Git 主线由三篇组成：[[01GitCommand]] 是速查表，[[02GitUse]] 是原理与场景详解，[[03Obsidian实操约定]] 是落到本库的实际做法与 Obsidian 相关的统一约定。
 
 **01 与 02 内容有重叠**（如 `checkout`/`switch`/`restore`/`reset` 的分工、取消暂存、恢复文件、取消跟踪）。两者定位不同：
 
@@ -31,7 +31,7 @@ Git 主线由三篇组成：[[01GitCommand]] 是速查表，[[02GitUse]] 是原�
 
 - [[01GitCommand]] 只保留命令速查表（含旧版 `master`、`main` 两种写法）
 - [[02GitUse]] 只保留原理、场景与完整流程，不再重复命令清单
-- [[03GitObsidian]] 只保留本库专属内容（`.gitignore` / `.gitattributes` 实际规则、排除原因、插件设置），通用流程改为双链指向前两篇
+- [[03Obsidian实操约定]] 只保留本库与 Obsidian 专属内容（`.gitignore` / `.gitattributes` 实际规则、排除判据、编辑操作与双链、`obsidian` 命令行限制），通用流程改为双链指向前两篇
 
 ---
 
@@ -43,7 +43,7 @@ Git 主线由三篇组成：[[01GitCommand]] 是速查表，[[02GitUse]] 是原�
 |---|---|
 | [[01GitCommand]] | Git 常用命令速查表，按基础工作流、查看比较、撤销回退、远程同步、配置属性、忽略清理分类汇总命令及用途。 |
 | [[02GitUse]] | Git 原理与场景手册，讲清 `master` 改 `main`、基于旧版本修改、`merge` 与 `cherry-pick` 取舍、避免与恢复 detached HEAD、`checkout`/`switch`/`restore`/`reset` 分工，以及取消本地与远程文件跟踪。命令有冲突时以本篇为准。 |
-| [[03GitObsidian]] | 把本库接入 GitHub 的实际做法（Obsidian Git 插件或命令行两种方式），以及必须排除跟踪的文件与原因。 |
+| [[03Obsidian实操约定]] | Obsidian 相关内容的统一落点：改名与双链的同步规则、同名双链冲突、表格重排对 `git diff` 的影响、必须排除跟踪的界面状态文件与判据、接入 GitHub 的两种做法，以及 `obsidian` 命令行的使用限制。 |
 
 ### 2.2 扩展安装
 
@@ -57,6 +57,7 @@ Git 主线由三篇组成：[[01GitCommand]] 是速查表，[[02GitUse]] 是原�
 | 笔记 | 介绍 |
 |---|---|
 | [[06Miniconda]] | Windows 上 Miniconda 安装与配置记录，把包缓存、虚拟环境与 TUNA/pip 镜像统一放到 D 盘，并建立 Python 3.9 的 `gee_py` 环境用于 GEE 洪涝遥感与机器学习项目。 |
+| [[11Windows工具链实操约定]] | 本机 PowerShell 5.1 的编码与执行约定：新建文件的 BOM 处理、日志编码、非 ASCII 脚本的 BOM 要求、脚本执行策略、提交信息的编码传递、搜索工具选择，以及 DSH 沙箱的能力边界。 |
 
 ### 2.4 故障排查
 

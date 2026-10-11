@@ -4,7 +4,7 @@
 > 适用范围：分支改名、基于旧提交修改、`merge` 与 `cherry-pick` 取舍、detached HEAD 的避免与恢复、`checkout`/`switch`/`restore`/`reset` 分工，以及取消本地与远程跟踪
 > 适用对象：本库作者，以及协助处理 Git 操作的 AI
 > 最近更新：2026-10-07
-> 关联文档：[[00note总览]]（全库导航）、[[01GitCommand]]（命令速查）、[[03GitObsidian]]（本库的 GitHub 接入与排除规则）
+> 关联文档：[[00note总览]]（全库导航）、[[01GitCommand]]（命令速查）、[[03Obsidian实操约定]]（本库的 GitHub 接入与排除规则）
 
 **目录**
 
