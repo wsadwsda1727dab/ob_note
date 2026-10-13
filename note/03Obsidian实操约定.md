@@ -3,7 +3,7 @@
 > 文档名称：Obsidian 实操约定
 > 适用范围：本库在 Obsidian 中的编辑操作与命名约定（改名与双链、同名冲突）、必须排除跟踪的界面状态文件与本库的 GitHub 接入做法，以及 `obsidian` 命令行的使用限制
 > 适用对象：本库作者，以及在本库中执行编辑、改名、提交与渲染核验的 AI
-> 最近更新：2026-10-11
+> 最近更新：2026-10-13
 > 关联文档：[[00note总览]]、[[01GitCommand]]、[[02GitUse]]、[[05Markdown规范]]、[[11Windows工具链实操约定]]
 
 **目录**
@@ -110,6 +110,9 @@ desktop.ini
 # 项目级 Skills 与它的清单
 .agents/
 skills-lock.json
+
+# Agent 工具与会话数据
+.workbuddy/
 ```
 
 规则语法（`*.log`、`/dist/`、`!important.log`）与生效范围见 [[01GitCommand]] 第 6 章。
@@ -141,7 +144,7 @@ skills-lock.json
 | `cache/`、`copilot-index*.json` | 缓存与索引 | 排除 | 可由内容重新生成 |
 | `.obsidian/` 下其余文件 | 插件配置、主题、快捷键等 | **跟踪** | 属有意维护的配置，需多设备保持一致 |
 
-- `.agents/` 与 `skills-lock.json` 属工具目录与清单，同样排除；技能来源与接入记录见 `handover/13技能接入与模板目录-2026-10-08`。
+- `.agents/` 与 `skills-lock.json` 属工具目录与清单，同样排除；技能来源与接入记录见 `handover/13技能接入与模板目录-2026-10-08`。`.workbuddy/` 属 Agent 工具与会话数据，同样排除。
 - `.gitignore` 的补充由用户自行决定，Agent 不主动修改。
 
 ### 4.4 如果已经提交过这些文件，如何停止跟踪
@@ -240,5 +243,6 @@ git push
 |---|---|---|
 | 2026-10-03 | 1.0.0 | 初版：本库接入 GitHub 的两种做法、必须排除跟踪的文件与原因 |
 | 2026-10-11 | 2.0.0 | 按用户决定扩容为 Obsidian 相关内容的统一落点并更名（原 `03GitObsidian.md`）：新增大纲、编辑操作与双链（含自 [[11Windows工具链实操约定]] 迁入的表格重排）、库的命名与同名冲突、排除判据表、`obsidian` 命令行的使用限制；`.gitignore` 补齐 `backlink.json`、`.agents/`、`skills-lock.json`；原第 1、2 章降为第 4、5 章 |
+| 2026-10-13 | 2.0.1 | 第 4.1 节 `.gitignore` 规则块与第 4.3 节排除清单补入 Agent 工具与会话数据目录 `.workbuddy/` |
 
 ---

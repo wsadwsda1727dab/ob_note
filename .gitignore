@@ -16,3 +16,5 @@ desktop.ini
 # skills
 .agents/
 skills-lock.json
+# Agent 工具与会话数据
+.workbuddy/

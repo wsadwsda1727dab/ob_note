@@ -3,7 +3,7 @@
 > 文档名称：ob_c1 库概要
 > 适用范围：`ob_c1` 库的整体布局，以及 `note/`、`handover/`、`templates/` 三个目录的定位与内容
 > 适用对象：本库作者，以及协助写作的 AI
-> 最近更新：2026-10-11
+> 最近更新：2026-10-13
 > 关联文档：[[00note总览]]、[[05Markdown规范]]、[[00handover总览]]、[[01交接文档写作格式]]
 
 **目录**
@@ -16,7 +16,7 @@
 
 ## 1. 库与目录布局
 
-- 库根只保留仓库配置与库级说明：`.obsidian/`、`.gitattributes`、`.gitignore`、本概要 `README.md`、`AGENTS.md`，以及项目级 Skills 目录 `.agents/`（含清单 `skills-lock.json`）；正文分别放在 `note/` 与 `handover/`。
+- 库根只保留仓库配置与库级说明：`.obsidian/`、`.gitattributes`、`.gitignore`、本概要 `README.md`、`AGENTS.md`，以及项目级 Skills 目录 `.agents/`（含清单 `skills-lock.json`）与 Agent 工具目录 `.workbuddy/`；正文分别放在 `note/` 与 `handover/`。
 - `note/` 是长期知识笔记，文件名 `NN名称.md`，由 [[00note总览]] 导航。
 - `handover/` 是阶段性交接文档，文件名带日期，由 [[00handover总览]] 索引。
 - `templates/` 是生成文档用的模板与示例数据，不属知识正文，文件名用英文小写加连字符，由 [[00模板说明]] 说明。

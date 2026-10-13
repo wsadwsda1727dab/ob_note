@@ -3,7 +3,7 @@
 > 适用范围：本仓库内由 DSH、Codex 或其他 AI Agent 执行的读取、分析、创建、修改、整理与 Git 操作
 > 适用对象：协助维护本知识库的 AI Agent
 > 核心原则：先理解知识库结构，再按任务读取；区分长期有效规则与阶段性历史；修改后保持索引与引用一致
-> 最近更新：2026-10-09
+> 最近更新：2026-10-13
 
 ## 1. 仓库定位
 
@@ -28,7 +28,7 @@ ob_note/
     └── 模板与示例数据
 ```
 
-`.obsidian/`、`.gitattributes`、`.gitignore` 属于仓库配置，`.agents/`（项目级 Skills）与 `skills-lock.json` 属于工具目录与其清单，都不属于主要知识内容。
+`.obsidian/`、`.gitattributes`、`.gitignore` 属于仓库配置，`.agents/`（项目级 Skills）、`skills-lock.json` 与 `.workbuddy/`（Agent 工具与会话数据）属于工具目录与其清单，都不属于主要知识内容。
 
 ### 1.2 两个正文目录的职责
 
