@@ -111,20 +111,20 @@
 
 ## 5. 配置与属性
 
-| 命令                                                     | 用途                                                         |
-| -------------------------------------------------------- | ------------------------------------------------------------ |
-| `git config --global --get http.proxy`                   | 查看 Git 的 HTTP 代理设置                                    |
-| `git config --global --get https.proxy`                  | 查看 Git 的 HTTPS 代理设置                                   |
-| `git config --global --unset http.proxy`                 | 清除 HTTP 代理                                               |
-| `git config --global --unset https.proxy`                | 清除 HTTPS 代理                                              |
-| `git config --global http.proxy http://127.0.0.1:7897`   | 设置 HTTP 代理（Clash 混合端口 7897）                        |
-| `git config --global https.proxy http://127.0.0.1:7897`  | 设置 HTTPS 代理                                              |
-| `git config --global http.proxy socks5://127.0.0.1:7897` | 设置 SOCKS5 代理                                             |
-| `git config --system http.sslBackend openssl`            | 切换 SSL 后端（需管理员权限）                                |
-| `git config --global core.autocrlf`                      | 查看行尾符自动转换配置                                       |
-| `git config --global core.safecrlf false`                | 关闭行尾符安全警告                                           |
-| `git config core.autocrlf false`                         | 对当前仓库关闭行尾符转换                                     |
-| `git config core.eol`                                    | 查看行尾符风格配置                                           |
+| 命令                                                       | 用途                                                        |
+| -------------------------------------------------------- | --------------------------------------------------------- |
+| `git config --global --get http.proxy`                   | 查看 Git 的 HTTP 代理设置                                        |
+| `git config --global --get https.proxy`                  | 查看 Git 的 HTTPS 代理设置                                       |
+| `git config --global --unset http.proxy`                 | 清除 HTTP 代理                                                |
+| `git config --global --unset https.proxy`                | 清除 HTTPS 代理                                               |
+| `git config --global http.proxy http://127.0.0.1:7890`   | 设置 HTTP 代理（Clash 混合端口 7890）                               |
+| `git config --global https.proxy http://127.0.0.1:7890`  | 设置 HTTPS 代理                                               |
+| `git config --global http.proxy socks5://127.0.0.1:7890` | 设置 SOCKS5 代理                                              |
+| `git config --system http.sslBackend openssl`            | 切换 SSL 后端（需管理员权限）                                         |
+| `git config --global core.autocrlf`                      | 查看行尾符自动转换配置                                               |
+| `git config --global core.safecrlf false`                | 关闭行尾符安全警告                                                 |
+| `git config core.autocrlf false`                         | 对当前仓库关闭行尾符转换                                              |
+| `git config core.eol`                                    | 查看行尾符风格配置                                                 |
 | `.gitattributes`                                         | 文件属性配置，如 `* text=auto`、`*.js text eol=lf`、`*.docx binary` |
 
 ---
