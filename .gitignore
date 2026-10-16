@@ -14,7 +14,15 @@ desktop.ini
 # Obsidian 回收站
 .trash/
 # skills
-.agents/
+# 本库自有的三个交接体系 Skill 纳入版本控制；第三方 Skill 与清单仍忽略。
+# 注意：父目录被整体排除后 Git 无法重新包含其下的文件，所以这里不能写 `.agents/`，
+# 必须逐层写成 `.agents/*` 加 `!` 白名单，否则例外完全不生效且 git status 无任何提示。
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/kb-resume/
+!.agents/skills/kb-maintain/
+!.agents/skills/kb-handover/
 skills-lock.json
 # Agent 工具与会话数据
 .workbuddy/

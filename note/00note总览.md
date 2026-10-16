@@ -6,8 +6,8 @@
 
 - **库名称**：ob_c1
 - **用途**：记录 Git/GitHub、Obsidian 同步、Skills 与 DSH 插件安装、Python 环境等工具操作与规范
-- **目录分工**：长期知识正文放在 `note/`，由本页导航；阶段性交接放在 `handover/`，由 [[00handover总览]] 导航；生成文档用的模板与示例数据放在 `templates/`，由 [[00模板说明]] 说明
-- **库根内容**：只保留仓库配置与库级说明，即 `.obsidian/`、`.gitattributes`、`.gitignore`、`README.md`、`AGENTS.md`，以及项目级 Skills 目录 `.agents/` 与它的清单 `skills-lock.json`
+- **目录分工**：长期知识正文放在 `note/`，由本页导航；阶段性交接与当前工作状态放在 `handover/`，历史交接文档由 [[00handover总览]] 索引，当前工作状态的唯一正本是 [[当前状态]]，恢复工作先读它；生成文档用的模板与示例数据放在 `templates/`，由 [[00模板说明]] 说明
+- **库根内容**：只保留仓库配置与库级说明，即 `.obsidian/`、`.gitattributes`、`.gitignore`、`README.md`、`AGENTS.md`，以及项目级 Skills 目录 `.agents/` 与它的清单 `skills-lock.json`、Agent 工具目录 `.workbuddy/`
 - **命名约定**：`NN名称.md`，`NN` 为两位序号；英文名称不用下划线，每个单词首字母大写（如 `01GitCommand.md`、`02GitUse.md`），中文名称直接连写；新增笔记顺延编号；总览文件命名为 `00note总览.md`，`note` 保持小写，属命名例外
 - **本页定位**：`note/` 目录的导航，说明各篇范围与阅读顺序；全库布局见库根 `README.md`
 
@@ -49,7 +49,7 @@ Git 主线由三篇组成：[[01GitCommand]] 是速查表，[[02GitUse]] 是原�
 
 | 笔记 | 介绍 |
 |---|---|
-| [[04Skills]] | Agent Skills 的五种安装方式（`npx skills`、`git clone`、一键脚本、第三方 CLI、手动复制）、项目级与全局级路径差异，以及更新与卸载。 |
+| [[04Skills]] | Agent Skills 的五种安装方式（`npx skills`、`git clone`、一键脚本、第三方 CLI、手动复制）、项目级与全局级路径差异，以及更新与卸载；另记本库自有的三个交接体系 Skill（`kb-resume`、`kb-maintain`、`kb-handover`）的分工、路径与版本控制。 |
 | [[07DSH插件安装]] | DSH Desktop 插件安装与排障记录，覆盖图形界面与命令行两种安装方式、profile 与兼容性闸门、常见报错、SHA256 快照与回滚。与 Git 及本库无关，属工具笔记。 |
 
 ### 2.3 运行环境
