@@ -3,14 +3,14 @@
 > 文档名称：DeepSeek Harness（DSH）插件安装方法与步骤
 > 操作系统：Windows
 > 适用范围：DSH Desktop 图形界面安装、DSH 命令行安装、插件兼容性排查与回滚
-> 实测宿主：DSH Desktop，内置运行时 `@deepseek-ai/dsh` = `0.2.0-rc.2`
+> 内置运行时：`@deepseek-ai/dsh` = `0.2.1-rc.2`（现行）；本篇的安装实测记录产生于 `0.2.0-rc.2`
 > DSH 安装目录：`D:\Software\sf1\DeepSeek Harness`
 > DSH_HOME：`%USERPROFILE%\.dsh`
 > 当前 profile：`desktop`
 > 内置 CLI：`D:\Software\sf1\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd`
-> 内置 pnpm：`D:\Software\sf1\DeepSeek Harness\resources\runtime\pnpm\bin\pnpm.cjs`
+> 内置 pnpm：`D:\Software\sf1\DeepSeek Harness\resources\runtime\primary-runtime\dependencies\pnpm\bin\pnpm.mjs`（实际入口；同目录 `pnpm.cjs` 为 Corepack 兼容壳；2026-10-18 实测 11.28.5）
 > 环境提示：本机 `dsh` 与 `pnpm` 都不在系统 PATH 上，二者都由 DSH Desktop 自带，命令行安装必须用完整路径调用
-> 最近更新：2026-10-03
+> 最近更新：2026-10-18
 
 **目录**
 
@@ -379,5 +379,7 @@ $env:DSH_HOME = 'D:\User\Documents\deepseek-harness\default-workspace\dsh-sandbo
 |---|---|---|
 | 2026-10-01 | 1.0.0 | 初版：DSH 插件的图形界面与命令行两种安装方式、profile 概念、兼容性闸门与安装前后的安全操作 |
 | 2026-10-03 | 1.0.1 | 补建变更记录章；本篇此前的内容改动未逐条回溯，版本号自本次起维护 |
+| 2026-10-18 | 1.0.2 | 修正元信息里的内置 pnpm 路径：原路径缺 `primary-runtime\dependencies` 两层，实测该路径不存在；补记当时版本 11.28.5 |
+| 2026-10-18 | 1.0.3 | 元信息「实测宿主」改为「内置运行时」，分为现行版本 `0.2.1-rc.2` 与安装实测版本 `0.2.0-rc.2` 两项；本篇正文的 `0.2.0-rc.2` 实测记录按原样保留，不追溯改写。依据：`resources\app.asar` 内 `"@deepseek-ai/dsh": "0.2.1-rc.2"` 与 `resources\runtime\primary-runtime\runtime.json` 的 `desktopVersion` |
 
 ---

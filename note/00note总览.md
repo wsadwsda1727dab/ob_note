@@ -51,6 +51,7 @@ Git 主线由三篇组成：[[01GitCommand]] 是速查表，[[02GitUse]] 是原�
 |---|---|
 | [[04Skills]] | Agent Skills 的五种安装方式（`npx skills`、`git clone`、一键脚本、第三方 CLI、手动复制）、项目级与全局级路径差异，以及更新与卸载；另记本库自有的三个交接体系 Skill（`kb-resume`、`kb-maintain`、`kb-handover`）的分工、路径与版本控制。 |
 | [[07DSH插件安装]] | DSH Desktop 插件安装与排障记录，覆盖图形界面与命令行两种安装方式、profile 与兼容性闸门、常见报错、SHA256 快照与回滚。与 Git 及本库无关，属工具笔记。 |
+| [[12DSH插件更新问题与解决]] | 宿主升到 `0.2.1-rc.2` 后插件市场与插件更新失败的排查：`already-installed` 守卫与 pnpm 11.28.5 策略违规崩溃两个根因，临时关闭 HMR、放行 `billion-context@0.1.199` 的处置方案，含完整操作步骤与验证清单。 |
 
 ### 2.3 运行环境
 
