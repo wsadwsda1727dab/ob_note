@@ -10,7 +10,7 @@
 > 内置 CLI：`D:\Software\sf1\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd`
 > 内置 pnpm：`D:\Software\sf1\DeepSeek Harness\resources\runtime\primary-runtime\dependencies\pnpm\bin\pnpm.mjs`（实际入口；同目录 `pnpm.cjs` 为 Corepack 兼容壳；2026-10-18 实测 11.28.5）
 > 环境提示：本机 `dsh` 与 `pnpm` 都不在系统 PATH 上，二者都由 DSH Desktop 自带，命令行安装必须用完整路径调用
-> 最近更新：2026-10-18
+> 最近更新：2026-10-19
 
 **目录**
 
@@ -220,7 +220,7 @@ with dsh 0.2.0-rc.2: peerDependencies {...}
 ^0.1.0-rc.7   ->   >=0.1.0-rc.7 <0.2.0-0
 ```
 
-`0.2.0-rc.1` 大于 `0.2.0-0`，所以**「只写 0.1.x」的插件在 0.2 宿主上一定不满足**，多加几段 OR 也救不回来。跨 minor 升级时这是最常见的“插件突然消失”原因。
+`0.2.0-rc.1` 大于 `0.2.0-0`，所以**「只写 0.1.x」的插件在 0.2 宿主上一定不满足**，多加几段 OR 也救不回来。跨 minor 升级时这是最常见的「插件突然消失」原因。
 
 ### 4.2 确认宿主版本
 
@@ -381,5 +381,6 @@ $env:DSH_HOME = 'D:\User\Documents\deepseek-harness\default-workspace\dsh-sandbo
 | 2026-10-03 | 1.0.1 | 补建变更记录章；本篇此前的内容改动未逐条回溯，版本号自本次起维护 |
 | 2026-10-18 | 1.0.2 | 修正元信息里的内置 pnpm 路径：原路径缺 `primary-runtime\dependencies` 两层，实测该路径不存在；补记当时版本 11.28.5 |
 | 2026-10-18 | 1.0.3 | 元信息「实测宿主」改为「内置运行时」，分为现行版本 `0.2.1-rc.2` 与安装实测版本 `0.2.0-rc.2` 两项；本篇正文的 `0.2.0-rc.2` 实测记录按原样保留，不追溯改写。依据：`resources\app.asar` 内 `"@deepseek-ai/dsh": "0.2.1-rc.2"` 与 `resources\runtime\primary-runtime\runtime.json` 的 `desktopVersion` |
+| 2026-10-19 | 1.0.4 | 按 [[05Markdown规范]] 第 5.1 节把第 223 行同一句内混用的 `“ ”` 改为 `「 」`，内容未变。 |
 
 ---
