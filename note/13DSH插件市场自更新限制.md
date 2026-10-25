@@ -7,7 +7,7 @@
 > DSH_HOME：`%USERPROFILE%\.dsh`
 > 当前 profile：`desktop`
 > 实测版本：市场 `1.66.37`（本机已装）／`1.66.42`（npm `latest`，2026-10-18T20:43:54Z 发布）
-> 最近更新：2026-10-19
+> 最近更新：2026-10-25
 > 关联文档：[[00note总览]]、[[07DSH插件安装]]、[[12DSH插件更新问题与解决]]
 
 **目录**
@@ -266,7 +266,7 @@ copy "%USERPROFILE%\.dsh\profiles\desktop\pnpm-lock.yaml" "%USERPROFILE%\.dsh\pr
 
 ### 6.3 三条必须注意的
 
-1. **必须加 `--save-exact`。** 捆绑的 pnpm 11.28.5 在未设置 `savePrefix` 时走 `getRangeSpecStyle` 的 `default: return "major"`，会把依赖写成 `^1.66.42`；本机 profile 里全是精确版本（如 `"dshmarket": "1.66.37"`）。宿主自己也只是把 `--save-exact` 作为可选参数透传，市场调用 `installBundle` 时没有传。
+1. **写裸包名必须加 `--save-exact`；命令里已显式写 `@版本` 时可省。** 捆绑的 pnpm 11.28.5 在 `saveExact` 与 `savePrefix` 都未设置时走 `getRangeSpecStyle` 的 `default: return "major"`，裸包名（`add dshmarket`）会被写成 `^1.66.42`；本机 profile 里全是精确版本（如 `"dshmarket": "1.66.37"`），所以裸名要加 `--save-exact`。但显式写了 `@版本` 时，`add` 的写回值由 `calcVersionRange` 取 `inferRangeSpecStyle(bareSpecifier)` 决定，`1.66.42` 被判为精确写法而直接沿用，`--save-exact` 不参与决策。2026-10-25 用捆绑 pnpm 在临时目录以 `--lockfile-only --offline` 实测四组：裸名写回 `^3.18.5`、裸名加 `--save-exact` 写回 `3.18.5`、显式 `@3.18.5` 写回 `3.18.5`、已有 `^3.18.4` 时升到 `@3.18.5` 也写回 `3.18.5`。§6.1、§6.2 的命令都显式带了版本，`--save-exact` 在这里属于冗余保险，留着无害；若改成裸名则不能省。宿主自己也只是把 `--save-exact` 作为可选参数透传，市场调用 `installBundle` 时没有传。
 2. **手动 `add` 会连带重解析 peer 实例。** #909 评论中有人实测从 `1.66.27` 升到 `1.66.42` 时，`pnpm-lock.yaml` 里 `dshmarket@1.66.42` 的 peer 从 `@deepseek-ai/schemastery@3.18.4` 变成 `3.18.5`。本机 `1.66.37` 声明的是 `@deepseek-ai/schemastery: ^3.18.1`（optional peer），升级后同样可能被重解析。这是已知副作用，不是失败。
 3. **`--config.minimum-release-age=0` 在本机是多余的，但写上无害。** `pnpm-workspace.yaml` 里没有 `minimumReleaseAge` 键，pnpm 11.28.5 的默认值是 `opts3.minimumReleaseAge ?? 0`。
 
@@ -298,5 +298,6 @@ type "%USERPROFILE%\.dsh\profiles\desktop\package.json"
 |---|---|---|
 | 2026-10-19 | 1.0.0 | 新建。记录市场无法自我更新的两层起始版本、机制链、「设置 → 插件」为何无入口、本机与上游现状、两条手动更新路径与未验证项。素材来自 2026-10-19 的 DSH 排查会话（三轮）。 |
 | 2026-10-19 | 1.0.1 | 格式自查：§4.2 的版本文案表单元格过长且「」同形套嵌，改为逐版本引用块；§5.3 拆开一行超长单元格；§6 补备份与回滚步骤（两条命令都覆盖 profile）。 |
+| 2026-10-25 | 1.0.2 | 订正 §6.3 第 1 条：原写「必须加 `--save-exact`」，实际只在不写版本时必要，命令显式写 `@版本` 时 pnpm 的 `calcVersionRange` 会沿用精确写法。补 2026-10-25 四组 `--lockfile-only` 实测结果。 |
 
 ---
